@@ -33,6 +33,7 @@ public class ProjetServlet extends HttpServlet {
         String action = req.getParameter("action");
         switch (action) {
             case "newprojet":
+                showNewForm(req, resp);
                 break;
             case "createprojet":
                 ajoutProjet(req, resp);
@@ -48,14 +49,20 @@ public class ProjetServlet extends HttpServlet {
                         break;
         }
     }
+
+    private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("listprojet.jsp");
+        dispatcher.forward(request, response);
+    }
      public void ajoutProjet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String nomProjet = req.getParameter("nomProjet");
         String description = req.getParameter("description");
         String dateDebut = req.getParameter("dateDebut");
-        String dateFin = req.getParameter("dateFin");
+        String dateFin = req.getParameter("datefin");
         float budget = Float.parseFloat(req.getParameter("budget"));
         Projet projet = new Projet(nomProjet, description, dateDebut, dateFin, budget);
        projetDao.insertProjet(projet);
+
          resp.sendRedirect(req.getContextPath() + "/projet?action=listprojet");
      }
      public void listProjet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

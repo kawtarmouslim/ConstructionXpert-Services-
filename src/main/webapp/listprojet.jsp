@@ -251,28 +251,25 @@
                 </div>
 
                 <div class="modal-body">
-                    <form id="projectForm" action="<%= request.getContextPath() %>/projet?action=newprojet" method="POST">
+                    <form id="projectForm" action="<%= request.getContextPath() %>/projet?action=createprojet" method="POST">
 
-                        <div class="mb-3">
-                            <label for="projectTitle" class="form-label fw-bold">Titre du projet</label>
-                            <input type="text" class="form-control rounded-3" id="projectTitle" name="projectTitle" placeholder="Entrez le titre du projet" required>
-                        </div>
+
 
                         <div class="mb-3">
                             <label for="projectName" class="form-label fw-bold">Nom du projet</label>
-                            <input type="text" class="form-control rounded-3" id="projectName" name="projectName" placeholder="Entrez le nom du projet" required>
+                            <input type="text" class="form-control rounded-3" id="projectName" name="nomProjet" placeholder="Entrez le nom du projet" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="projectDescription" class="form-label fw-bold">Description</label>
-                            <textarea class="form-control rounded-3" id="projectDescription" name="projectDescription" rows="3" placeholder="Entrez la description du projet"></textarea>
+                            <textarea class="form-control rounded-3" id="projectDescription" name="description" rows="3" placeholder="Entrez la description du projet"></textarea>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="projectDate" class="form-label fw-bold">Date de début</label>
                                 <div class="input-group">
-                                    <input type="date" class="form-control rounded-3" id="projectDate" name="projectDate" required>
+                                    <input type="date" class="form-control rounded-3" id="projectDate" name="dateDebut" required>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">

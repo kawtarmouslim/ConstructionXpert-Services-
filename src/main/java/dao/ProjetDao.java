@@ -38,6 +38,7 @@ public class ProjetDao {
             preparedStatement.setString(4, projet.getDateFin());
             preparedStatement.setFloat(5, projet.getBudget());
             preparedStatement.executeUpdate();
+            System.out.println("salam");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
