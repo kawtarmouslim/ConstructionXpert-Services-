@@ -26,7 +26,7 @@
             color: #555;
         }
 
-        /* Barre latérale */
+
         .sidebar {
             width: 220px;
             height: 100vh;
@@ -243,45 +243,59 @@
     <!-- Modal -->
     <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content p-4 shadow-lg rounded-3" style="background-color: #f8f9fa;">
                 <!-- En-tête du modal -->
-                <div class="modal-header">
-                    <h5 class="modal-title" id="projectModalLabel">Nouveau Projet</h5>
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-primary" id="projectModalLabel">Nouveau Projet</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
-                <!-- Corps du modal avec formulaire -->
                 <div class="modal-body">
-                    <form action="<%= request.getContextPath() %>/projet?action=newprojet" method="POST">
+                    <form id="projectForm" action="<%= request.getContextPath() %>/projet?action=newprojet" method="POST">
+
                         <div class="mb-3">
-                            <label for="projectName" class="form-label">Nom du projet</label>
-                            <input type="text" class="form-control" id="projectName" name="projectName" required>
+                            <label for="projectTitle" class="form-label fw-bold">Titre du projet</label>
+                            <input type="text" class="form-control rounded-3" id="projectTitle" name="projectTitle" placeholder="Entrez le titre du projet" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="projectDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="projectDescription" name="projectDescription" rows="3"></textarea>
+                            <label for="projectName" class="form-label fw-bold">Nom du projet</label>
+                            <input type="text" class="form-control rounded-3" id="projectName" name="projectName" placeholder="Entrez le nom du projet" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="projectDate" class="form-label">Date de début</label>
-                            <input type="date" class="form-control" id="projectDate" name="projectDate" required>
+                            <label for="projectDescription" class="form-label fw-bold">Description</label>
+                            <textarea class="form-control rounded-3" id="projectDescription" name="projectDescription" rows="3" placeholder="Entrez la description du projet"></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="datefin" class="form-label">Date Fin</label>
-                            <input type="date" class="form-control" id="datefin" name="datefin" required>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="projectDate" class="form-label fw-bold">Date de début</label>
+                                <div class="input-group">
+                                    <input type="date" class="form-control rounded-3" id="projectDate" name="projectDate" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="datefin" class="form-label fw-bold">Date de fin</label>
+                                <div class="input-group">
+                                    <input type="date" class="form-control rounded-3" id="datefin" name="datefin" required>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="mb-3">
-                            <label for="budget" class="form-label">Budget</label>
-                            <input type="text" class="form-control" id="budget" name="budget" required>
+                            <label for="budget" class="form-label fw-bold">Budget du projet</label>
+                            <div class="input-group">
+                                <span class="input-group-text">€</span>
+                                <input type="text" class="form-control rounded-3" id="budget" name="budget" placeholder="Entrez le budget du projet" required>
+                            </div>
                         </div>
                     </form>
                 </div>
 
                 <!-- Pied du modal -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" form="projectForm" class="btn btn-primary">Créer le projet</button>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" form="projectForm" class="btn btn-primary rounded-3">Créer le projet</button>
                 </div>
             </div>
         </div>
