@@ -1,4 +1,5 @@
-
+<%@ page import="model.Projet" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -214,7 +215,9 @@
     <ul class="menu">
         <li class="active"><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
         <li><a href="listtache.jsp"><i class="fas fa-tasks"></i> Tâches</a></li>
-        <li><a href="listprojet.jsp"><i class="fas fa-project-diagram"></i> Projets</a></li>
+        <li><a href="<%= request.getContextPath() %>/projet?action=listprojet">
+            <i class="fas fa-project-diagram"></i> Projets
+        </a></li>
         <li><a href="listressource.jsp"><i class="fas fa-cogs"></i> Ressources</a></li>
     </ul>
 </div>
@@ -313,19 +316,30 @@
             </tr>
             </thead>
             <tbody id="task-table">
+            <%
+                List<Projet> projets = (List<Projet>) request.getAttribute("projets");
+                if ( projets!= null) {
+                    for (Projet projet : projets) {
+            %>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><%= projet.getIdProjet() %></td>
+                <td><%= projet.getNomProjet() %></td>
+                <td><%= projet.getDescription() %></td>
+                <td><%= projet.getDateDebut() %></td>
+                <td><%= projet.getDateFin() %></td>
+                <td><%= projet.getBudget() %></td>
+
 
                 <td class="actions">
                     <button class="edit-btn"><i class="fas fa-edit"></i></button>
                     <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
                 </td>
             </tr>
+            <%
+                    }
+                }
+            %>
+            </tbody>
 
             </tbody>
         </table>

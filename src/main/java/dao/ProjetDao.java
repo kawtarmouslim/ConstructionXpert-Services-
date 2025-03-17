@@ -70,8 +70,10 @@ public class ProjetDao {
         String select = "SELECT * FROM projet";
         try (PreparedStatement preparedStatement=connection.prepareStatement(select)) {
             ResultSet resultSet = preparedStatement.executeQuery();
+            System.out.println("ssss");
             while (resultSet.next()) {
                 Projet projet = new Projet();
+                projet.setIdProjet(resultSet.getInt("idProjet"));
                 projet.setNomProjet(resultSet.getString("nomProjet"));
                 projet.setDescription(resultSet.getString("description"));
                 projet.setDateDebut(resultSet.getString("dateDebut"));

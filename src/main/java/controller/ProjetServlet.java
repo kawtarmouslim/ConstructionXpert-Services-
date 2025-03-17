@@ -68,6 +68,7 @@ public class ProjetServlet extends HttpServlet {
      public void listProjet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
          List<Projet> projets=projetDao.getAllProjets();
          req.setAttribute("projets",projets);
+         System.out.println("hello");
          RequestDispatcher dispatcher = req.getRequestDispatcher("listprojet.jsp");
          dispatcher.forward(req, resp);
 
