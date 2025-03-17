@@ -26,7 +26,7 @@
             color: #555;
         }
 
-
+        /* Barre latérale */
         .sidebar {
             width: 220px;
             height: 100vh;
@@ -249,6 +249,7 @@
                     <h5 class="modal-title fw-bold text-primary" id="projectModalLabel">Nouveau Projet</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
                 <div class="modal-body">
                     <form id="projectForm" action="<%= request.getContextPath() %>/projet?action=newprojet" method="POST">
 

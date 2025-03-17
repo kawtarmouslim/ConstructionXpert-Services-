@@ -28,19 +28,20 @@
 
     /* Barre latérale */
     .sidebar {
-      width: 250px;
+      width: 220px;
       height: 100vh;
       background: #1e3a8a;
       color: white;
-      position: fixed;
-      top: 0;
-      left: 0;
       padding: 20px;
+      position: fixed;
+      left: 0;
+      top: 0;
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     }
     .sidebar h2 {
-      font-size: 1.8rem;
       margin-bottom: 40px;
+      font-size: 1.6rem;
+      font-weight: 600;
     }
     .menu {
       list-style: none;
@@ -56,6 +57,14 @@
     }
     .menu li:hover {
       background: rgba(255, 255, 255, 0.2);
+    }
+    .active {
+      background: white;
+      color: #1e3a8a;
+      font-weight: bold;
+    }
+    .menu li i {
+      margin-right: 10px;
     }
 
     /* Contenu principal */

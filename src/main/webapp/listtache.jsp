@@ -1,13 +1,15 @@
-<meta charset="UTF-8">
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Taches</title>
+    <title>Gestion des Tâches</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-
+        /* Styles généraux */
         * {
             margin: 0;
             padding: 0;
@@ -24,7 +26,7 @@
             color: #555;
         }
 
-
+        /* Barre latérale */
         .sidebar {
             width: 220px;
             height: 100vh;
@@ -87,7 +89,7 @@
             font-size: 1.8rem;
         }
 
-
+        /* Barre de recherche et filtre */
         .search-container {
             display: flex;
             justify-content: space-between;
@@ -121,7 +123,7 @@
             border-color: #1e3a8a;
         }
 
-
+        /* Table */
         .table-container {
             background: #f9fafb;
             padding: 20px;
@@ -150,7 +152,7 @@
             color: #555;
         }
 
-
+        /* Coloration alternée des lignes de la table */
         tr:nth-child(odd) {
             background: #f9f9f9;
         }
@@ -185,7 +187,7 @@
             background: #c82333;
         }
 
-
+        /* Bouton Ajouter une tâche */
         .add-task-btn {
             background: #4caf50;
             color: white;
@@ -220,10 +222,10 @@
 <!-- Contenu principal -->
 <div class="main-content">
     <div class="header">
-        <h2>Les tache</h2>
+        <h2>Les Projets</h2>
     </div>
     <div class="search-container">
-        <input type="text" placeholder="Rechercher une tache...">
+        <input type="text" placeholder="Rechercher une projet...">
         <select>
             <option value="all">Tous les Projets</option>
             <option value="construction"></option>
@@ -233,20 +235,83 @@
     </div>
 
 
-    <button class="add-task-btn">
-        <i class="fas fa-plus"><a  href="<%= request.getContextPath() %>/projet?action=newprojet"></a></i> Ajouter une Projet
+    <!-- Bouton pour déclencher le modal -->
+    <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal">
+        <i class="fas fa-plus"></i> Ajouter un Projet
     </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content p-4 shadow-lg rounded-3" style="background-color: #f8f9fa;">
+                <!-- En-tête du modal -->
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-primary" id="projectModalLabel">Nouveau Projet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="projectForm" action="<%= request.getContextPath() %>/projet?action=newprojet" method="POST">
+
+                        <div class="mb-3">
+                            <label for="projectTitle" class="form-label fw-bold">Titre du projet</label>
+                            <input type="text" class="form-control rounded-3" id="projectTitle" name="projectTitle" placeholder="Entrez le titre du projet" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="projectName" class="form-label fw-bold">Nom du projet</label>
+                            <input type="text" class="form-control rounded-3" id="projectName" name="projectName" placeholder="Entrez le nom du projet" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="projectDescription" class="form-label fw-bold">Description</label>
+                            <textarea class="form-control rounded-3" id="projectDescription" name="projectDescription" rows="3" placeholder="Entrez la description du projet"></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="projectDate" class="form-label fw-bold">Date de début</label>
+                                <div class="input-group">
+                                    <input type="date" class="form-control rounded-3" id="projectDate" name="projectDate" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="datefin" class="form-label fw-bold">Date de fin</label>
+                                <div class="input-group">
+                                    <input type="date" class="form-control rounded-3" id="datefin" name="datefin" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="budget" class="form-label fw-bold">Budget du projet</label>
+                            <div class="input-group">
+                                <span class="input-group-text">€</span>
+                                <input type="text" class="form-control rounded-3" id="budget" name="budget" placeholder="Entrez le budget du projet" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Pied du modal -->
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" form="projectForm" class="btn btn-primary rounded-3">Créer le projet</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="table-container">
         <table>
             <thead>
             <tr>
-                <th>ID Tache</th>
-                <th>Nom de la Tache</th>
+                <th>ID Projet</th>
+                <th>Nom de la Projet</th>
                 <th>Description</th>
-                <th>Projet</th>
-                <th>Date Début</th>
-                <th>Date Fin</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Budget</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -269,6 +334,6 @@
         </table>
     </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
