@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -90,7 +91,6 @@
       border-radius: 50%;
     }
 
-    /* Cards du Dashboard */
     .dashboard-cards {
       display: flex;
       justify-content: space-between;
@@ -122,7 +122,6 @@
       color: #555;
     }
 
-    /* Statistiques de tâches */
     .task-table-container {
       background: #fff;
       padding: 20px;
@@ -155,45 +154,40 @@
 </head>
 <body>
 
-<!-- Barre latérale -->
 <div class="sidebar">
   <h2>Gestion des Tâches</h2>
   <ul class="menu">
-    <li class="active">Dashboard</li>
-    <li>Tâches</li>
-    <li>Projets</li>
-    <li>Ressources</li>
+    <li class="active"><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
+    <li><a href="listtache.jsp"><i class="fas fa-tasks"></i> Tâches</a></li>
+    <li><a href="listprojet.jsp"><i class="fas fa-project-diagram"></i> Projets</a></li>
+    <li><a href="listressource.jsp"><i class="fas fa-cogs"></i> Ressources</a></li>
   </ul>
 </div>
 
-<!-- Contenu principal -->
 <div class="main-content">
   <div class="header">
     <h2>Tableau de Bord</h2>
-    <!-- Information de l'utilisateur connecté -->
     <div class="user-info">
       <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Avatar de l'utilisateur">
       <span>Jean Dupont</span>
     </div>
   </div>
 
-  <!-- Cards du Dashboard -->
+
   <div class="dashboard-cards">
-    <!-- Card 1 -->
+
     <div class="card">
       <i class="fas fa-tasks"></i>
       <h3>Tâches en Cours</h3>
       <p>10 tâches en cours sur 20</p>
     </div>
 
-    <!-- Card 2 -->
     <div class="card">
       <i class="fas fa-calendar-check"></i>
       <h3>Tâches Terminées</h3>
       <p>8 tâches terminées cette semaine</p>
     </div>
 
-    <!-- Card 3 -->
     <div class="card">
       <i class="fas fa-users"></i>
       <h3>Équipe</h3>
@@ -201,7 +195,6 @@
     </div>
   </div>
 
-  <!-- Statistiques de tâches -->
   <div class="task-table-container">
     <h3>Dernières Tâches</h3>
     <table>
