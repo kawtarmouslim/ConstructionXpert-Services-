@@ -42,8 +42,10 @@ public class ProjetServlet extends HttpServlet {
                     listProjet(req, resp);
                     break;
                     case "updateprojet":
+                        updaterProjet(req, resp);
                         break;
                         case "deleteprojet":
+                            supprimerProjet(req, resp);
                             break;
                     default:
                         break;
@@ -72,6 +74,22 @@ public class ProjetServlet extends HttpServlet {
          RequestDispatcher dispatcher = req.getRequestDispatcher("listprojet.jsp");
          dispatcher.forward(req, resp);
 
+     }
+     public void supprimerProjet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                  int id = Integer.parseInt(req.getParameter("id"));
+                  projetDao.deleteProjet(id);
+                  resp.sendRedirect(req.getContextPath() + "/projet?action=listprojet");
+
+     }
+     public void updaterProjet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String nomProjet = req.getParameter("nomProjet");
+        String description = req.getParameter("description");
+        String dateDebut = req.getParameter("dateDebut");
+        String dateFin = req.getParameter("dateFin");
+        float budget = Float.parseFloat(req.getParameter("budget"));
+         Projet projet=new Projet(nomProjet, description, dateDebut, dateFin, budget);
+         projetDao.updateProjet(projet);
+         System.out.println("update");
      }
 
 }

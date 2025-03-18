@@ -1,5 +1,9 @@
 <%@ page import="model.Projet" %>
 <%@ page import="java.util.List" %>
+<%
+    Projet projete = (Projet) request.getAttribute("projet");
+
+%>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -206,10 +210,12 @@
 <body>
 
 <div class="sidebar">
-    <h2>Gestion des Projet</h2>
+    <h2>Gestion des Tâches</h2>
     <ul class="menu">
         <li class="active"><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="listtache.jsp"><i class="fas fa-tasks"></i> Tâches</a></li>
+        <li><a href="<%= request.getContextPath() %>/tache?action=listtache">
+            <i class="fas fa-project-diagram"></i> Taches
+        </a></li>
         <li><a href="<%= request.getContextPath() %>/projet?action=listprojet">
             <i class="fas fa-project-diagram"></i> Projets
         </a></li>
@@ -217,7 +223,7 @@
     </ul>
 </div>
 
-<!-- Contenu principal -->
+
 <div class="main-content">
     <div class="header">
         <h2>Les Projets</h2>
@@ -232,8 +238,6 @@
         </select>
     </div>
 
-
-    <!-- Bouton pour déclencher le modal -->
     <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal">
         <i class="fas fa-plus"></i> Ajouter un Projet
     </button>
@@ -251,8 +255,11 @@
                 <div class="modal-body">
                     <form id="projectForm" action="<%= request.getContextPath() %>/projet?action=createprojet" method="POST">
 
-
-
+                        <form id="form1" class="form1" action="projet?action=<%= (projete != null) ? "updateprojet" : "createprojet" %>" method="post">
+                            <% if (projete != null) { %>
+                            <input type="hidden" name="idProjet" value="<%= projete.getIdProjet() %>">
+                            <% } %>
+                        </form>
                         <div class="mb-3">
                             <label for="projectName" class="form-label fw-bold">Nom du projet</label>
                             <input type="text" class="form-control rounded-3" id="projectName" name="nomProjet" placeholder="Entrez le nom du projet" required>
@@ -323,11 +330,9 @@
                 <td><%= projet.getDateDebut() %></td>
                 <td><%= projet.getDateFin() %></td>
                 <td><%= projet.getBudget() %></td>
-
-
-                <td class="actions">
-                    <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                    <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
+                <td class="actions" style="width: 150px;">
+                    <button class="edit-btn"> <a href="<%= request.getContextPath() %>/projet?action=deleteprojet&id=<%= projet.getIdProjet() %>"><i class="fas fa-edit"></i></a></button>
+                    <button class="delete-btn"> <a href="<%= request.getContextPath() %>/projet?action=updateprojet&idedit=<%= projet.getIdProjet() %>"><i class="fas fa-trash-alt"></i></a></button>
                 </td>
             </tr>
             <%

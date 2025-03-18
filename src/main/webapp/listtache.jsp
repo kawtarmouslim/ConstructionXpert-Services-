@@ -207,7 +207,7 @@
 <body>
 
 <div class="sidebar">
-    <h2>Gestion des Tache</h2>
+    <h2>Gestion des Tâches</h2>
     <ul class="menu">
         <li class="active"><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
         <li><a href="<%= request.getContextPath() %>/tache?action=listtache">
@@ -219,8 +219,6 @@
         <li><a href="listressource.jsp"><i class="fas fa-cogs"></i> Ressources</a></li>
     </ul>
 </div>
-
-<!-- Contenu principal -->
 <div class="main-content">
     <div class="header">
         <h2>Les taches</h2>
@@ -234,14 +232,9 @@
             <option value="expansion"></option>
         </select>
     </div>
-
-
-    <!-- Bouton pour déclencher le modal -->
     <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal">
         <i class="fas fa-plus"></i> Ajouter une Tache
     </button>
-
-    <!-- Modal -->
     <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content p-4 shadow-lg rounded-3" style="background-color: #f8f9fa;">
@@ -298,8 +291,6 @@
 
                     </form>
                 </div>
-
-                <!-- Pied du modal -->
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Annuler</button>
                     <button type="submit" form="projectForm" class="btn btn-primary rounded-3">Créer</button>
@@ -337,7 +328,7 @@
 
 
 
-                <td class="actions">
+                <td class="actions" style="width: 150px;">
                     <button class="edit-btn"><i class="fas fa-edit"></i></button>
                     <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
                 </td>

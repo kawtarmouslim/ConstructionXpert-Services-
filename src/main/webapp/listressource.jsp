@@ -210,7 +210,7 @@
 <body>
 
 <div class="sidebar">
-    <h2>Gestion des Projet</h2>
+    <h2>Gestion des Ressource</h2>
     <ul class="menu">
         <li class="active"><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
         <li><a href="listtache.jsp"><i class="fas fa-tasks"></i> Tâches</a></li>
@@ -222,12 +222,12 @@
 <!-- Contenu principal -->
 <div class="main-content">
     <div class="header">
-        <h2>Les Projets</h2>
+        <h2>Les Ressource</h2>
     </div>
     <div class="search-container">
-        <input type="text" placeholder="Rechercher une projet...">
+        <input type="text" placeholder="Rechercher une Ressource...">
         <select>
-            <option value="all">Tous les Projets</option>
+            <option value="all">Tous les Ressource</option>
             <option value="construction"></option>
             <option value="renovation"></option>
             <option value="expansion"></option>
@@ -237,7 +237,7 @@
 
     <!-- Bouton pour déclencher le modal -->
     <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal">
-        <i class="fas fa-plus"></i> Ajouter un Projet
+        <i class="fas fa-plus"></i> Ajouter Ressource
     </button>
 
     <!-- Modal -->
@@ -246,7 +246,7 @@
             <div class="modal-content p-4 shadow-lg rounded-3" style="background-color: #f8f9fa;">
                 <!-- En-tête du modal -->
                 <div class="modal-header border-0">
-                    <h5 class="modal-title fw-bold text-primary" id="projectModalLabel">Nouveau Projet</h5>
+                    <h5 class="modal-title fw-bold text-primary" id="projectModalLabel">Nouveau Ressource</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -324,7 +324,7 @@
                 <td></td>
                 <td></td>
 
-                <td class="actions">
+                <td class="actions" style="width: 150px;">
                     <button class="edit-btn"><i class="fas fa-edit"></i></button>
                     <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
                 </td>
