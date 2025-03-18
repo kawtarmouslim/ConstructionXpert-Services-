@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        /* Styles généraux */
+
         * {
             margin: 0;
             padding: 0;
@@ -27,7 +27,6 @@
             color: #555;
         }
 
-        /* Barre latérale */
         .sidebar {
             width: 220px;
             height: 100vh;
@@ -68,7 +67,6 @@
             margin-right: 10px;
         }
 
-        /* Contenu principal */
         .main-content {
             margin-left: 250px;
             padding: 20px;
@@ -90,7 +88,6 @@
             font-size: 1.8rem;
         }
 
-        /* Barre de recherche et filtre */
         .search-container {
             display: flex;
             justify-content: space-between;
@@ -124,7 +121,6 @@
             border-color: #1e3a8a;
         }
 
-        /* Table */
         .table-container {
             background: #f9fafb;
             padding: 20px;
@@ -153,7 +149,6 @@
             color: #555;
         }
 
-        /* Coloration alternée des lignes de la table */
         tr:nth-child(odd) {
             background: #f9f9f9;
         }

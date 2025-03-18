@@ -1,4 +1,6 @@
-
+<%@ page import="model.Projet" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.Tache" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        /* Styles généraux */
+
         * {
             margin: 0;
             padding: 0;
@@ -26,7 +28,6 @@
             color: #555;
         }
 
-        /* Barre latérale */
         .sidebar {
             width: 220px;
             height: 100vh;
@@ -67,7 +68,6 @@
             margin-right: 10px;
         }
 
-        /* Contenu principal */
         .main-content {
             margin-left: 250px;
             padding: 20px;
@@ -89,7 +89,6 @@
             font-size: 1.8rem;
         }
 
-        /* Barre de recherche et filtre */
         .search-container {
             display: flex;
             justify-content: space-between;
@@ -123,7 +122,6 @@
             border-color: #1e3a8a;
         }
 
-        /* Table */
         .table-container {
             background: #f9fafb;
             padding: 20px;
@@ -152,7 +150,6 @@
             color: #555;
         }
 
-        /* Coloration alternée des lignes de la table */
         tr:nth-child(odd) {
             background: #f9f9f9;
         }
@@ -210,11 +207,15 @@
 <body>
 
 <div class="sidebar">
-    <h2>Gestion des Projet</h2>
+    <h2>Gestion des Tache</h2>
     <ul class="menu">
         <li class="active"><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="listtache.jsp"><i class="fas fa-tasks"></i> Tâches</a></li>
-        <li><a href="listprojet.jsp"><i class="fas fa-project-diagram"></i> Projets</a></li>
+        <li><a href="<%= request.getContextPath() %>/tache?action=listtache">
+            <i class="fas fa-project-diagram"></i> Taches
+        </a></li>
+        <li><a href="<%= request.getContextPath() %>/projet?action=listprojet">
+            <i class="fas fa-project-diagram"></i> Projets
+        </a></li>
         <li><a href="listressource.jsp"><i class="fas fa-cogs"></i> Ressources</a></li>
     </ul>
 </div>
@@ -222,10 +223,10 @@
 <!-- Contenu principal -->
 <div class="main-content">
     <div class="header">
-        <h2>Les Projets</h2>
+        <h2>Les taches</h2>
     </div>
     <div class="search-container">
-        <input type="text" placeholder="Rechercher une projet...">
+        <input type="text" placeholder="Rechercher une Tache...">
         <select>
             <option value="all">Tous les Projets</option>
             <option value="construction"></option>
@@ -237,7 +238,7 @@
 
     <!-- Bouton pour déclencher le modal -->
     <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal">
-        <i class="fas fa-plus"></i> Ajouter un Projet
+        <i class="fas fa-plus"></i> Ajouter une Tache
     </button>
 
     <!-- Modal -->
@@ -246,57 +247,62 @@
             <div class="modal-content p-4 shadow-lg rounded-3" style="background-color: #f8f9fa;">
                 <!-- En-tête du modal -->
                 <div class="modal-header border-0">
-                    <h5 class="modal-title fw-bold text-primary" id="projectModalLabel">Nouveau Projet</h5>
+                    <h5 class="modal-title fw-bold text-primary" id="projectModalLabel">Nouveau Tache</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
-                    <form id="projectForm" action="<%= request.getContextPath() %>/projet?action=newprojet" method="POST">
+                    <form id="projectForm" action="<%= request.getContextPath() %>/tache?action=cretetache" method="POST">
+
+
 
                         <div class="mb-3">
-                            <label for="projectTitle" class="form-label fw-bold">Titre du projet</label>
-                            <input type="text" class="form-control rounded-3" id="projectTitle" name="projectTitle" placeholder="Entrez le titre du projet" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="projectName" class="form-label fw-bold">Nom du projet</label>
-                            <input type="text" class="form-control rounded-3" id="projectName" name="projectName" placeholder="Entrez le nom du projet" required>
+                            <label for="projectName" class="form-label fw-bold">Nom Tache</label>
+                            <input type="text" class="form-control rounded-3" id="projectName" name="nomTache" placeholder="Entrez le nom du tache" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="projectDescription" class="form-label fw-bold">Description</label>
-                            <textarea class="form-control rounded-3" id="projectDescription" name="projectDescription" rows="3" placeholder="Entrez la description du projet"></textarea>
+                            <textarea class="form-control rounded-3" id="projectDescription" name="description" rows="3" placeholder="Entrez la description du tache"></textarea>
                         </div>
-
+                        <div class="mb-3">
+                            <label for="idProjet" class="form-label fw-bold">Projet</label>
+                            <select class="form-control rounded-3" id="idProjet" name="idProjet">
+                                <option value="">Sélectionnez un projet</option>
+                                <%
+                                    List<Projet> projets = (List<Projet>) request.getAttribute("projets");
+                                    if (projets != null) {
+                                        for (Projet p : projets) {
+                                %>
+                                <option value="<%= p.getIdProjet() %>"><%= p.getNomProjet() %></option>
+                                <%
+                                        }
+                                    }
+                                %>
+                            </select>
+                        </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="projectDate" class="form-label fw-bold">Date de début</label>
                                 <div class="input-group">
-                                    <input type="date" class="form-control rounded-3" id="projectDate" name="projectDate" required>
+                                    <input type="date" class="form-control rounded-3" id="projectDate" name="dateDebut" required>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="datefin" class="form-label fw-bold">Date de fin</label>
                                 <div class="input-group">
-                                    <input type="date" class="form-control rounded-3" id="datefin" name="datefin" required>
+                                    <input type="date" class="form-control rounded-3" id="datefin" name="dateFin" required>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="budget" class="form-label fw-bold">Budget du projet</label>
-                            <div class="input-group">
-                                <span class="input-group-text">€</span>
-                                <input type="text" class="form-control rounded-3" id="budget" name="budget" placeholder="Entrez le budget du projet" required>
-                            </div>
-                        </div>
                     </form>
                 </div>
 
                 <!-- Pied du modal -->
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" form="projectForm" class="btn btn-primary rounded-3">Créer le projet</button>
+                    <button type="submit" form="projectForm" class="btn btn-primary rounded-3">Créer</button>
                 </div>
             </div>
         </div>
@@ -306,29 +312,41 @@
         <table>
             <thead>
             <tr>
-                <th>ID Projet</th>
-                <th>Nom de la Projet</th>
+                <th>ID Tache</th>
+                <th>Nom de la Tache</th>
                 <th>Description</th>
+                <th>Nom projet</th>
                 <th>Date de début</th>
                 <th>Date de fin</th>
-                <th>Budget</th>
                 <th>Action</th>
             </tr>
             </thead>
             <tbody id="task-table">
+            <%
+                List<Tache> taches = (List<Tache>) request.getAttribute("taches");
+                if ( taches!= null) {
+                    for (Tache tache : taches) {
+            %>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><%= tache.getIdTache() %></td>
+                <td><%= tache.getNomTache() %></td>
+                <td><%= tache.getDescription() %></td>
+                <td><%= tache.getNomProjet() %></td>
+                <td><%= tache.getDateDebut() %></td>
+                <td><%= tache.getDateFin() %></td>
+
+
 
                 <td class="actions">
                     <button class="edit-btn"><i class="fas fa-edit"></i></button>
                     <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
                 </td>
             </tr>
+            <%
+                    }
+                }
+            %>
+            </tbody>
 
             </tbody>
         </table>

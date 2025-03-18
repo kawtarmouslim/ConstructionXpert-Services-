@@ -167,10 +167,13 @@
   <h2>Gestion des Tâches</h2>
   <ul class="menu">
     <li class="active"><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
-    <li><a href="listtache.jsp"><i class="fas fa-tasks"></i> Tâches</a></li>
+    <li><a href="<%= request.getContextPath() %>/tache?action=listtache">
+      <i class="fas fa-project-diagram"></i> Taches
+    </a></li>
     <li><a href="<%= request.getContextPath() %>/projet?action=listprojet">
       <i class="fas fa-project-diagram"></i> Projets
-    </a></li>    <li><a href="listressource.jsp"><i class="fas fa-cogs"></i> Ressources</a></li>
+    </a></li>
+    <li><a href="listressource.jsp"><i class="fas fa-cogs"></i> Ressources</a></li>
   </ul>
 </div>
 
