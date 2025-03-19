@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.Projet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,13 @@ public class ProjetServlet extends HttpServlet {
             case "newprojet":
                 showNewForm(req, resp);
                 break;
+            case "neweditform":
+                try {
+                    showEditForm(req,resp);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
             case "createprojet":
                 ajoutProjet(req, resp);
                 break;
@@ -42,7 +50,11 @@ public class ProjetServlet extends HttpServlet {
                     listProjet(req, resp);
                     break;
                     case "updateprojet":
-                        updaterProjet(req, resp);
+                        try {
+                            updateProjet(req,resp);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
                         break;
                         case "deleteprojet":
                             supprimerProjet(req, resp);
@@ -51,7 +63,29 @@ public class ProjetServlet extends HttpServlet {
                         break;
         }
     }
+    private void updateProjet(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException {
+        int id = Integer.parseInt((request.getParameter("idProjet")));
+        String nom = request.getParameter("nomProjet");
+        String description = request.getParameter("description");
+        String dateDebut = request.getParameter("dateDebut");
+        String datefin = request.getParameter("datefin");
 
+        float budget = Float.parseFloat(request.getParameter("budget"));
+        Projet projet = new Projet(id,nom, description, dateDebut, datefin, budget);
+        projetDao.updateProjet(projet);
+        System.out.println("updated projet");
+        response.sendRedirect(request.getContextPath() + "/projet?action=listprojet");
+    }
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("idProjet"));
+        Projet existingProjet = projetDao.getProjet(id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("listprojet.jsp");
+        request.setAttribute("projet", existingProjet);
+        dispatcher.forward(request, response);
+
+    }
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("listprojet.jsp");
         dispatcher.forward(request, response);
@@ -81,15 +115,6 @@ public class ProjetServlet extends HttpServlet {
                   resp.sendRedirect(req.getContextPath() + "/projet?action=listprojet");
 
      }
-     public void updaterProjet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String nomProjet = req.getParameter("nomProjet");
-        String description = req.getParameter("description");
-        String dateDebut = req.getParameter("dateDebut");
-        String dateFin = req.getParameter("dateFin");
-        float budget = Float.parseFloat(req.getParameter("budget"));
-         Projet projet=new Projet(nomProjet, description, dateDebut, dateFin, budget);
-         projetDao.updateProjet(projet);
-         System.out.println("update");
-     }
+
 
 }

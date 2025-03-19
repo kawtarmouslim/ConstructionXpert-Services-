@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjetDao {
-    Connection connection ;
+    Connection connection;
+
     public ProjetDao() {
         connection = DatabaseConfig.getConnection();
         try {
@@ -18,7 +19,7 @@ public class ProjetDao {
                     "description VARCHAR(100) NOT NULL, " +
                     "dateDebut DATE NOT NULL, " +
                     "datefin DATE NOT NULL, " +
-                    "budjet FLOAT NOT NULL "+
+                    "budjet FLOAT NOT NULL " +
                     ")";
 
             statement.executeUpdate(createProjetTable);
@@ -44,31 +45,33 @@ public class ProjetDao {
         }
 
     }
-     public Projet getProjet(int idProjet) {
-            Projet projet = null;
-         String select = "SELECT * FROM projet WHERE idProjet = ?";
-         try (PreparedStatement preparedStatement = connection.prepareStatement(select)) {
-             preparedStatement.setInt(1, idProjet);
-             ResultSet resultSet = preparedStatement.executeQuery();
-             while (resultSet.next()) {
-                  projet = new Projet();
-                 resultSet.getString("nomProjet");
-                 resultSet.getString("description");
-                 resultSet.getString("dateDebut");
-                 resultSet.getString("dateFin");
-                 resultSet.getFloat("budjet");
+
+    public Projet getProjet(int idProjet) {
+        Projet projet = null;
+        String select = "SELECT * FROM projet WHERE idProjet = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(select)) {
+            preparedStatement.setInt(1, idProjet);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                projet = new Projet();
+                resultSet.getString("nomProjet");
+                resultSet.getString("description");
+                resultSet.getString("dateDebut");
+                resultSet.getString("dateFin");
+                resultSet.getFloat("budjet");
 
 
-             }
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
-               return projet;
-     }
-     public List<Projet> getAllProjets() {
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return projet;
+    }
+
+    public List<Projet> getAllProjets() {
         List<Projet> projets = new ArrayList<Projet>();
         String select = "SELECT * FROM projet";
-        try (PreparedStatement preparedStatement=connection.prepareStatement(select)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(select)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             System.out.println("ssss");
             while (resultSet.next()) {
@@ -84,11 +87,11 @@ public class ProjetDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-         return projets;
-     }
+        return projets;
+    }
 
 
-       public void deleteProjet(int idProjet) {
+    public void deleteProjet(int idProjet) {
         String delete = "DELETE FROM projet WHERE idProjet = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(delete)) {
             preparedStatement.setInt(1, idProjet);
@@ -99,49 +102,19 @@ public class ProjetDao {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-       }
-    public void updateProjet(Projet projet) {
+    }
+    public void updateProjet(Projet projet) throws SQLException {
         String sql = "UPDATE projet SET nomProjet=?, description=?, dateDebut=?, datefin=?, budjet=? WHERE idProjet=?";
-
-        // Affichez les valeurs avant de les utiliser pour déboguer
-        System.out.println("Updating project with ID: " + projet.getIdProjet());
-        System.out.println("Project Name: " + projet.getNomProjet());
-        System.out.println("Project Description: " + projet.getDescription());
-        System.out.println("Start Date: " + projet.getDateDebut());
-        System.out.println("End Date: " + projet.getDateFin());
-        System.out.println("Budget: " + projet.getBudget());
-
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, projet.getNomProjet());
-            preparedStatement.setString(2, projet.getDescription());
-            preparedStatement.setString(3, projet.getDateDebut());
-            preparedStatement.setString(4, projet.getDateFin());
-            preparedStatement.setFloat(5, projet.getBudget());
-            preparedStatement.setInt(6, projet.getIdProjet()); // Assurez-vous de bien définir l'ID
+            preparedStatement.setInt(1,projet.getIdProjet());
+            preparedStatement.setString(2, projet.getNomProjet());
+            preparedStatement.setString(3, projet.getDescription());
+            preparedStatement.setString(4, projet.getDateDebut());
+            preparedStatement.setString(5, projet.getDateFin());
+            preparedStatement.setFloat(6, projet.getBudget());
 
-            int rowsUpdated = preparedStatement.executeUpdate();
-
-            if (rowsUpdated > 0) {
-                System.out.println("Project updated successfully!");
-            } else {
-                System.out.println("No project found with the provided ID.");
-            }
-
-        } catch (SQLException e) {
-            // Affichez les détails de l'exception SQL pour le débogage
-            System.err.println("SQL Error: " + e.getMessage());
-            e.printStackTrace();
-
-            // Vérifiez si c'est un problème de contrainte de clé étrangère
-            if (e.getMessage().contains("FOREIGN KEY")) {
-                System.err.println("Cannot update project due to foreign key constraint.");
-            }
-        } catch (Exception e) {
-            // Affichez toutes les autres exceptions possibles
-            System.err.println("Error: " + e.getMessage());
-            e.printStackTrace();
+            preparedStatement.executeUpdate();
         }
     }
-
 
 }
