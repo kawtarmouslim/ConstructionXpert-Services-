@@ -65,12 +65,11 @@ public class ProjetServlet extends HttpServlet {
     }
     private void updateProjet(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
-        int id = Integer.parseInt((request.getParameter("idProjet")));
+        int id = Integer.parseInt((request.getParameter("id")));
         String nom = request.getParameter("nomProjet");
         String description = request.getParameter("description");
         String dateDebut = request.getParameter("dateDebut");
         String datefin = request.getParameter("datefin");
-
         float budget = Float.parseFloat(request.getParameter("budget"));
         Projet projet = new Projet(id,nom, description, dateDebut, datefin, budget);
         projetDao.updateProjet(projet);

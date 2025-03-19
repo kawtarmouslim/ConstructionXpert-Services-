@@ -1,4 +1,9 @@
-
+<%@ page import="model.Projet" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.Ressource" %>
+<%
+    List<Ressource> ressources = (List<Ressource>) request.getAttribute("ressources");
+%>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -213,9 +218,15 @@
     <h2>Gestion des Ressource</h2>
     <ul class="menu">
         <li class="active"><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="listtache.jsp"><i class="fas fa-tasks"></i> Tâches</a></li>
-        <li><a href="listprojet.jsp"><i class="fas fa-project-diagram"></i> Projets</a></li>
-        <li><a href="listressource.jsp"><i class="fas fa-cogs"></i> Ressources</a></li>
+        <li><a href="<%= request.getContextPath() %>/tache?action=listtache">
+            <i class="fas fa-project-diagram"></i> Taches
+        </a></li>
+        <li><a href="<%= request.getContextPath() %>/projet?action=listprojet">
+            <i class="fas fa-project-diagram"></i> Projets
+        </a></li>
+        <li><a href="<%= request.getContextPath() %>/ressource?action=listRessource">
+            <i class="fas fa-project-diagram"></i> Projets
+        </a></li>
     </ul>
 </div>
 
@@ -251,43 +262,27 @@
                 </div>
 
                 <div class="modal-body">
-                    <form id="projectForm" action="<%= request.getContextPath() %>/projet?action=newprojet" method="POST">
+                    <form id="projectForm" action="<%= request.getContextPath() %>/ressource?action=insertRessource" method="post">
 
                         <div class="mb-3">
-                            <label for="projectTitle" class="form-label fw-bold">Titre du projet</label>
-                            <input type="text" class="form-control rounded-3" id="projectTitle" name="projectTitle" placeholder="Entrez le titre du projet" required>
+                            <label for="nomRessource" class="form-label fw-bold">Nom Ressource</label>
+                            <input type="text" class="form-control rounded-3" id="nomRessource" name="nomRessource" placeholder="Entrez le nom ressource" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="projectName" class="form-label fw-bold">Nom du projet</label>
-                            <input type="text" class="form-control rounded-3" id="projectName" name="projectName" placeholder="Entrez le nom du projet" required>
+                            <label for="typeRessource" class="form-label fw-bold">Type</label>
+                            <input type="text" class="form-control rounded-3" id="typeRessource" name="typeRessource" placeholder="Entrez Type" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="projectDescription" class="form-label fw-bold">Description</label>
-                            <textarea class="form-control rounded-3" id="projectDescription" name="projectDescription" rows="3" placeholder="Entrez la description du projet"></textarea>
+                            <label for="fournisseur" class="form-label fw-bold">Fournisseur</label>
+                            <input type="text" class="form-control rounded-3" id="fournisseur" name="fournisseur" placeholder="Entrez Fournisseur" required>
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="projectDate" class="form-label fw-bold">Date de début</label>
-                                <div class="input-group">
-                                    <input type="date" class="form-control rounded-3" id="projectDate" name="projectDate" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="datefin" class="form-label fw-bold">Date de fin</label>
-                                <div class="input-group">
-                                    <input type="date" class="form-control rounded-3" id="datefin" name="datefin" required>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="mb-3">
-                            <label for="budget" class="form-label fw-bold">Budget du projet</label>
+                            <label for="quantite" class="form-label fw-bold">Qantite</label>
                             <div class="input-group">
                                 <span class="input-group-text">€</span>
-                                <input type="text" class="form-control rounded-3" id="budget" name="budget" placeholder="Entrez le budget du projet" required>
+                                <input type="text" class="form-control rounded-3" id="quantite" name="quantite" placeholder="Entrez quantite" required>
                             </div>
                         </div>
                     </form>
@@ -296,7 +291,7 @@
                 <!-- Pied du modal -->
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" form="projectForm" class="btn btn-primary rounded-3">Créer le projet</button>
+                    <button type="submit" form="projectForm" class="btn btn-primary rounded-3">Créer le Ressource</button>
                 </div>
             </div>
         </div>
@@ -306,30 +301,40 @@
         <table>
             <thead>
             <tr>
-                <th>ID Projet</th>
-                <th>Nom de la Projet</th>
-                <th>Description</th>
-                <th>Date de début</th>
-                <th>Date de fin</th>
-                <th>Budget</th>
+                <th>ID Ressource</th>
+                <th>Nom de la Ressource</th>
+                <th>Type</th>
+                <th>Fournisseur</th>
                 <th>Action</th>
             </tr>
             </thead>
             <tbody id="task-table">
+            <%
+                if (ressources != null) {
+                    for (Ressource ressource1 : ressources) {
+            %>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-
-                <td class="actions" style="width: 150px;">
-                    <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                    <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
+                <td><%= ressource1.getIdRessource() %></td>
+                <td><%= ressource1.getNomRessource() %></td>
+                <td><%= ressource1.getType() %></td>
+                <td><%= ressource1.getFournisseur() %></td>
+                <td class="actions">
+                    <button class="edit-btn">
+                        <a href="<%= request.getContextPath() %>/projet?action=updateprojet&id=<%= ressource1.getIdRessource() %>">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </button>
+                    <button class="delete-btn">
+                        <a href="<%= request.getContextPath() %>/?action=deleteprojet&id=<%= ressource1.getIdRessource() %>">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </button>
                 </td>
             </tr>
-
+            <%
+                    }
+                }
+            %>
             </tbody>
         </table>
     </div>

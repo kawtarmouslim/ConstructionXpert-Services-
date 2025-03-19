@@ -216,7 +216,9 @@
         <li><a href="<%= request.getContextPath() %>/projet?action=listprojet">
             <i class="fas fa-project-diagram"></i> Projets
         </a></li>
-        <li><a href="listressource.jsp"><i class="fas fa-cogs"></i> Ressources</a></li>
+        <li><a href="<%= request.getContextPath() %>/ressource?action=listRessource">
+            <i class="fas fa-project-diagram"></i> Projets
+        </a></li>
     </ul>
 </div>
 <div class="main-content">

@@ -2,7 +2,6 @@
 <%@ page import="java.util.List" %>
 <%
     Projet projete = (Projet) request.getAttribute("projet");
-
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -12,9 +11,8 @@
     <title>Gestion des Tâches</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-
+        /* Votre CSS personnalisé ici */
         * {
             margin: 0;
             padding: 0;
@@ -30,7 +28,6 @@
             font-size: 16px;
             color: #555;
         }
-
         .sidebar {
             width: 220px;
             height: 100vh;
@@ -70,7 +67,6 @@
         .menu li i {
             margin-right: 10px;
         }
-
         .main-content {
             margin-left: 250px;
             padding: 20px;
@@ -80,7 +76,6 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
             border-radius: 10px;
         }
-
         .header {
             display: flex;
             justify-content: space-between;
@@ -91,7 +86,6 @@
             color: #333;
             font-size: 1.8rem;
         }
-
         .search-container {
             display: flex;
             justify-content: space-between;
@@ -124,7 +118,6 @@
         .search-container select:focus {
             border-color: #1e3a8a;
         }
-
         .table-container {
             background: #f9fafb;
             padding: 20px;
@@ -152,7 +145,6 @@
             font-size: 1rem;
             color: #555;
         }
-
         tr:nth-child(odd) {
             background: #f9f9f9;
         }
@@ -162,7 +154,6 @@
         tr:hover {
             background: #e8f0fe;
         }
-
         .actions button {
             border: none;
             padding: 8px 15px;
@@ -186,8 +177,6 @@
         .delete-btn:hover {
             background: #c82333;
         }
-
-        /* Bouton Ajouter une tâche */
         .add-task-btn {
             background: #4caf50;
             color: white;
@@ -219,23 +208,15 @@
         <li><a href="<%= request.getContextPath() %>/projet?action=listprojet">
             <i class="fas fa-project-diagram"></i> Projets
         </a></li>
-        <li><a href="listressource.jsp"><i class="fas fa-cogs"></i> Ressources</a></li>
+        <li><a href="<%= request.getContextPath() %>/ressource?action=listRessource">
+            <i class="fas fa-project-diagram"></i> Projets
+        </a></li>
     </ul>
 </div>
-
 
 <div class="main-content">
     <div class="header">
         <h2>Les Projets</h2>
-    </div>
-    <div class="search-container">
-        <input type="text" placeholder="Rechercher une projet...">
-        <select>
-            <option value="all">Tous les Projets</option>
-            <option value="construction"></option>
-            <option value="renovation"></option>
-            <option value="expansion"></option>
-        </select>
     </div>
 
     <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal">
@@ -246,7 +227,6 @@
     <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content p-4 shadow-lg rounded-3" style="background-color: #f8f9fa;">
-                <!-- En-tête du modal -->
                 <div class="modal-header border-0">
                     <h5 class="modal-title fw-bold text-primary" id="projectModalLabel">
                         <%= (projete != null) ? "Modifier le Projet" : "Nouveau Projet" %>
@@ -255,12 +235,10 @@
                 </div>
 
                 <div class="modal-body">
-                    <form id="projectForm" action="<%= request.getContextPath() %>/projet?action=<%= (projete != null) ? "updateprojet" : "createprojet" %>" method="POST">
-
+                    <form id="projectForm" action="<%= request.getContextPath() %>/projet?action=<%= (projete != null) ? "updateprojet" : "createprojet" %>" method="post">
                         <% if (projete != null) { %>
                         <input type="hidden" name="idProjet" value="<%= projete.getIdProjet() %>">
                         <% } %>
-
 
                         <div class="mb-3">
                             <label for="projectName" class="form-label fw-bold">Nom du projet</label>
@@ -269,14 +247,12 @@
                                    placeholder="Entrez le nom du projet" required>
                         </div>
 
-
                         <div class="mb-3">
                             <label for="projectDescription" class="form-label fw-bold">Description</label>
                             <textarea class="form-control rounded-3" id="projectDescription" name="description" rows="3"
                                       placeholder="Entrez la description du projet"><%= (projete != null) ? projete.getDescription() : "" %></textarea>
                         </div>
 
-                        <!-- Dates de début et de fin -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="projectDate" class="form-label fw-bold">Date de début</label>
@@ -290,7 +266,6 @@
                             </div>
                         </div>
 
-                        <!-- Budget -->
                         <div class="mb-3">
                             <label for="budget" class="form-label fw-bold">Budget du projet</label>
                             <div class="input-group">
@@ -303,7 +278,6 @@
                     </form>
                 </div>
 
-                <!-- Pied du modal -->
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Annuler</button>
                     <button type="submit" form="projectForm" class="btn btn-primary rounded-3">
@@ -313,7 +287,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="table-container">
         <table>
@@ -331,7 +304,7 @@
             <tbody id="task-table">
             <%
                 List<Projet> projets = (List<Projet>) request.getAttribute("projets");
-                if ( projets!= null) {
+                if (projets != null) {
                     for (Projet projet : projets) {
             %>
             <tr>
@@ -342,7 +315,7 @@
                 <td><%= projet.getDateFin() %></td>
                 <td><%= projet.getBudget() %></td>
                 <td class="actions" style="width: 150px;">
-                    <button class="edit-btn"> <a href="<%= request.getContextPath() %>/projet?action=updateprojet&id=<%= projet.getIdProjet() %>"><i class="fas fa-edit"></i></a></button>
+                    <button class="edit-btn" data-bs-toggle="modal" data-bs-target="#projectModal"> <a href="<%= request.getContextPath() %>/projet?action=updateprojet&id=<%= projet.getIdProjet() %>"><i class="fas fa-edit"></i></a></button>
                     <button class="delete-btn"> <a href="<%= request.getContextPath() %>/projet?action=deleteprojet&id=<%= projet.getIdProjet() %>"><i class="fas fa-trash-alt"></i></a></button>
                 </td>
             </tr>
@@ -351,11 +324,10 @@
                 }
             %>
             </tbody>
-
-            </tbody>
         </table>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
