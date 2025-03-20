@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 public class Tache {
     private  int idTache;
     private String nomTache;
@@ -8,11 +10,13 @@ public class Tache {
     private String nomProjet;
     private String dateDebut;
     private String dateFin;
+    private List<Ressource>ressources;
 
     public Tache() {
     }
 
-    public Tache(String nomTache, String description, int idProjet, String dateDebut, String dateFin) {
+
+    public Tache(String nomTache, String description, int idProjet,  String dateDebut, String dateFin) {
         this.nomTache = nomTache;
         this.description = description;
         this.idProjet = idProjet;
@@ -74,5 +78,13 @@ public class Tache {
 
     public void setNomProjet(String nomProjet) {
         this.nomProjet = nomProjet;
+    }
+
+    public List<Ressource> getRessources() {
+        return ressources;
+    }
+
+    public void setRessources(List<Ressource> ressources) {
+        this.ressources = ressources;
     }
 }

@@ -305,6 +305,7 @@
                 <th>Nom de la Ressource</th>
                 <th>Type</th>
                 <th>Fournisseur</th>
+                <th>Quantite</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -318,6 +319,7 @@
                 <td><%= ressource1.getNomRessource() %></td>
                 <td><%= ressource1.getType() %></td>
                 <td><%= ressource1.getFournisseur() %></td>
+                <td><%= ressource1.getQuantite() %></td>
                 <td class="actions">
                     <button class="edit-btn">
                         <a href="<%= request.getContextPath() %>/projet?action=updateprojet&id=<%= ressource1.getIdRessource() %>">

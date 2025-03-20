@@ -54,7 +54,7 @@ public class RessourceServlet extends HttpServlet {
         String nomRessource = request.getParameter("nomRessource");
         String typeRessource = request.getParameter("typeRessource");
         String fournisseur = request.getParameter("fournisseur");
-     int quantite = Integer.parseInt(request.getParameter("quantite"));
+       int quantite = Integer.parseInt(request.getParameter("quantite"));
        Ressource ressource=new Ressource(nomRessource,typeRessource,fournisseur,quantite);
      ressourceDao.insertRessource(ressource);
       System.out.println("Ressource inserted");

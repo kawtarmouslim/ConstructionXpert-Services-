@@ -1,6 +1,7 @@
 <%@ page import="model.Projet" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Tache" %>
+<%@ page import="model.Ressource" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -11,7 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-
         * {
             margin: 0;
             padding: 0;
@@ -183,8 +183,14 @@
         .delete-btn:hover {
             background: #c82333;
         }
+        .resource-btn {
+            background: #17a2b8;
+            color: white;
+        }
+        .resource-btn:hover {
+            background: #138496;
+        }
 
-        /* Bouton Ajouter une tâche */
         .add-task-btn {
             background: #4caf50;
             color: white;
@@ -202,6 +208,27 @@
         .add-task-btn:hover {
             background: #45a049;
         }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        button {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button i {
+            margin-right: 5px;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
@@ -217,13 +244,14 @@
             <i class="fas fa-project-diagram"></i> Projets
         </a></li>
         <li><a href="<%= request.getContextPath() %>/ressource?action=listRessource">
-            <i class="fas fa-project-diagram"></i> Projets
+            <i class="fas fa-box-open"></i> Ressources
         </a></li>
     </ul>
 </div>
+
 <div class="main-content">
     <div class="header">
-        <h2>Les taches</h2>
+        <h2>Les tâches</h2>
     </div>
     <div class="search-container">
         <input type="text" placeholder="Rechercher une Tache...">
@@ -235,30 +263,26 @@
         </select>
     </div>
     <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal">
-        <i class="fas fa-plus"></i> Ajouter une Tache
+        <i class="fas fa-plus"></i> Ajouter une Tâche
     </button>
+
+    <!-- Modal for adding a new task -->
     <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content p-4 shadow-lg rounded-3" style="background-color: #f8f9fa;">
-                <!-- En-tête du modal -->
                 <div class="modal-header border-0">
-                    <h5 class="modal-title fw-bold text-primary" id="projectModalLabel">Nouveau Tache</h5>
+                    <h5 class="modal-title fw-bold text-primary" id="projectModalLabel">Nouvelle Tâche</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
                 <div class="modal-body">
                     <form id="projectForm" action="<%= request.getContextPath() %>/tache?action=cretetache" method="POST">
-
-
-
                         <div class="mb-3">
-                            <label for="projectName" class="form-label fw-bold">Nom Tache</label>
-                            <input type="text" class="form-control rounded-3" id="projectName" name="nomTache" placeholder="Entrez le nom du tache" required>
+                            <label for="projectName" class="form-label fw-bold伍">Nom Tâche</label>
+                            <input type="text" class="form-control rounded-3" id="projectName" name="nomTache" placeholder="Entrez le nom du tâche" required>
                         </div>
-
                         <div class="mb-3">
                             <label for="projectDescription" class="form-label fw-bold">Description</label>
-                            <textarea class="form-control rounded-3" id="projectDescription" name="description" rows="3" placeholder="Entrez la description du tache"></textarea>
+                            <textarea class="form-control rounded-3" id="projectDescription" name="description" rows="3" placeholder="Entrez la description du tâche"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="idProjet" class="form-label fw-bold">Projet</label>
@@ -279,18 +303,13 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="projectDate" class="form-label fw-bold">Date de début</label>
-                                <div class="input-group">
-                                    <input type="date" class="form-control rounded-3" id="projectDate" name="dateDebut" required>
-                                </div>
+                                <input type="date" class="form-control rounded-3" id="projectDate" name="dateDebut" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="datefin" class="form-label fw-bold">Date de fin</label>
-                                <div class="input-group">
-                                    <input type="date" class="form-control rounded-3" id="datefin" name="dateFin" required>
-                                </div>
+                                <input type="date" class="form-control rounded-3" id="datefin" name="dateFin" required>
                             </div>
                         </div>
-
                     </form>
                 </div>
                 <div class="modal-footer border-0">
@@ -301,12 +320,53 @@
         </div>
     </div>
 
+    <!-- Modal for assigning resources to a task -->
+    <div class="modal fade" id="resourceModal" tabindex="-1" aria-labelledby="resourceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content p-4 shadow-lg rounded-3" style="background-color: #f8f9fa;">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-primary" id="resourceModalLabel">Assigner une Ressource</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="resourceForm" action="<%= request.getContextPath() %>/tache?action=assignRessource" method="POST">
+                        <input type="hidden" id="idTache" name="idTache" value="">
+                        <div class="mb-3">
+                            <label for="idRessource" class="form-label fw-bold">Ressource</label>
+                            <select class="form-control rounded-3" id="idRessource" name="idRessource" required>
+                                <option value="">Sélectionnez une ressource</option>
+                                <%
+                                    List<Ressource> ressources = (List<Ressource>) request.getAttribute("ressources");
+                                    if (ressources != null) {
+                                        for (Ressource r : ressources) {
+                                %>
+                                <option value="<%= r.getIdRessource() %>"><%= r.getNomRessource() %> (Disponible: <%= r.getQuantite() %>)</option>
+                                <%
+                                        }
+                                    }
+                                %>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantite" class="form-label fw-bold">Quantité</label>
+                            <input type="number" class="form-control rounded-3" id="quantite" name="quantite" min="1" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" form="resourceForm" class="btn btn-primary rounded-3">Assigner</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="table-container">
         <table>
             <thead>
             <tr>
-                <th>ID Tache</th>
-                <th>Nom de la Tache</th>
+                <th>ID Tâche</th>
+                <th>Nom de la Tâche</th>
                 <th>Description</th>
                 <th>Nom projet</th>
                 <th>Date de début</th>
@@ -317,7 +377,7 @@
             <tbody id="task-table">
             <%
                 List<Tache> taches = (List<Tache>) request.getAttribute("taches");
-                if ( taches!= null) {
+                if (taches != null) {
                     for (Tache tache : taches) {
             %>
             <tr>
@@ -326,13 +386,14 @@
                 <td><%= tache.getDescription() %></td>
                 <td><%= tache.getNomProjet() %></td>
                 <td><%= tache.getDateDebut() %></td>
+                <previous class="fas fa-box-open"></previous>
                 <td><%= tache.getDateFin() %></td>
-
-
-
-                <td class="actions" style="width: 150px;">
-                    <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                    <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
+                <td class="actions" style="width: 200px;">
+                    <div class="button-group">
+                        <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                        <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
+                        <button class="resource-btn" data-bs-toggle="modal" data-bs-target="#resourceModal" onclick="setTacheId(<%= tache.getIdTache() %>)"><i class="fas fa-box-open"></i></button>
+                    </div>
                 </td>
             </tr>
             <%
@@ -340,11 +401,15 @@
                 }
             %>
             </tbody>
-
-            </tbody>
         </table>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function setTacheId(idTache) {
+        document.getElementById('idTache').value = idTache;
+    }
+</script>
 </body>
 </html>

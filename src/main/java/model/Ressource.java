@@ -16,6 +16,11 @@ public class Ressource {
         this.fournisseur = fournisseur;
         this.quantite = quantite;
     }
+    public Ressource(int idRessource, String nomRessource) {
+        this.idRessource = idRessource;
+        this.nomRessource = nomRessource;
+    }
+
 
     public int getIdRessource() {
         return idRessource;

@@ -1,5 +1,6 @@
 package dao;
 
+import model.Ressource;
 import model.Tache;
 
 import java.sql.*;
@@ -40,6 +41,7 @@ public class TacheDao {
             preparedStatement.setString(4,tache.getDateDebut());
             preparedStatement.setString(5,tache.getDateFin());
             preparedStatement.executeUpdate();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 
 
         } catch (Exception e) {
