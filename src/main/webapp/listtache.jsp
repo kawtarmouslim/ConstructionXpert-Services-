@@ -10,7 +10,6 @@
     <title>Gestion des Tâches</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -27,7 +26,6 @@
             font-size: 16px;
             color: #555;
         }
-
         .sidebar {
             width: 220px;
             height: 100vh;
@@ -67,7 +65,6 @@
         .menu li i {
             margin-right: 10px;
         }
-
         .main-content {
             margin-left: 250px;
             padding: 20px;
@@ -77,7 +74,6 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
             border-radius: 10px;
         }
-
         .header {
             display: flex;
             justify-content: space-between;
@@ -88,7 +84,6 @@
             color: #333;
             font-size: 1.8rem;
         }
-
         .search-container {
             display: flex;
             justify-content: space-between;
@@ -121,7 +116,6 @@
         .search-container select:focus {
             border-color: #1e3a8a;
         }
-
         .table-container {
             background: #f9fafb;
             padding: 20px;
@@ -149,7 +143,6 @@
             font-size: 1rem;
             color: #555;
         }
-
         tr:nth-child(odd) {
             background: #f9f9f9;
         }
@@ -159,14 +152,17 @@
         tr:hover {
             background: #e8f0fe;
         }
-
+        .actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
         .actions button {
             border: none;
             padding: 8px 15px;
             cursor: pointer;
             border-radius: 5px;
             font-size: 14px;
-            margin-right: 10px;
             transition: background-color 0.3s ease;
         }
         .edit-btn {
@@ -190,7 +186,6 @@
         .resource-btn:hover {
             background: #138496;
         }
-
         .add-task-btn {
             background: #4caf50;
             color: white;
@@ -208,27 +203,6 @@
         .add-task-btn:hover {
             background: #45a049;
         }
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        button {
-            background-color: #f0f0f0;
-            border: none;
-            padding: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button i {
-            margin-right: 5px;
-        }
-
-        button:hover {
-            background-color: #ddd;
-        }
     </style>
 </head>
 <body>
@@ -236,37 +210,31 @@
 <div class="sidebar">
     <h2>Gestion des Tâches</h2>
     <ul class="menu">
-        <li class="active"><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="<%= request.getContextPath() %>/tache?action=listtache">
-            <i class="fas fa-project-diagram"></i> Taches
-        </a></li>
-        <li><a href="<%= request.getContextPath() %>/projet?action=listprojet">
-            <i class="fas fa-project-diagram"></i> Projets
-        </a></li>
-        <li><a href="<%= request.getContextPath() %>/ressource?action=listRessource">
-            <i class="fas fa-box-open"></i> Ressources
-        </a></li>
+        <li><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li class="active"><a href="<%= request.getContextPath() %>/tache?action=listtache"><i class="fas fa-project-diagram"></i> Tâches</a></li>
+        <li><a href="<%= request.getContextPath() %>/projet?action=listprojet"><i class="fas fa-project-diagram"></i> Projets</a></li>
+        <li><a href="<%= request.getContextPath() %>/ressource?action=listRessource"><i class="fas fa-box-open"></i> Ressources</a></li>
     </ul>
 </div>
 
 <div class="main-content">
     <div class="header">
-        <h2>Les tâches</h2>
+        <h2>Les Tâches</h2>
     </div>
     <div class="search-container">
-        <input type="text" placeholder="Rechercher une Tache...">
+        <input type="text" placeholder="Rechercher une Tâche...">
         <select>
             <option value="all">Tous les Projets</option>
-            <option value="construction"></option>
-            <option value="renovation"></option>
-            <option value="expansion"></option>
+            <option value="construction">Construction</option>
+            <option value="renovation">Rénovation</option>
+            <option value="expansion">Expansion</option>
         </select>
     </div>
-    <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal">
+    <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal" onclick="resetModal()">
         <i class="fas fa-plus"></i> Ajouter une Tâche
     </button>
 
-    <!-- Modal for adding a new task -->
+    <!-- Modal for adding/updating a task -->
     <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content p-4 shadow-lg rounded-3" style="background-color: #f8f9fa;">
@@ -275,9 +243,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="projectForm" action="<%= request.getContextPath() %>/tache?action=cretetache" method="POST">
+                    <form id="projectForm" action="<%= request.getContextPath() %>/tache?action=createtache" method="POST">
+                        <input type="hidden" id="idTache" name="idTache">
                         <div class="mb-3">
-                            <label for="projectName" class="form-label fw-bold伍">Nom Tâche</label>
+                            <label for="projectName" class="form-label fw-bold">Nom Tâche</label>
                             <input type="text" class="form-control rounded-3" id="projectName" name="nomTache" placeholder="Entrez le nom du tâche" required>
                         </div>
                         <div class="mb-3">
@@ -286,7 +255,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="idProjet" class="form-label fw-bold">Projet</label>
-                            <select class="form-control rounded-3" id="idProjet" name="idProjet">
+                            <select class="form-control rounded-3" id="idProjet" name="idProjet" required>
                                 <option value="">Sélectionnez un projet</option>
                                 <%
                                     List<Projet> projets = (List<Projet>) request.getAttribute("projets");
@@ -314,7 +283,7 @@
                 </div>
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" form="projectForm" class="btn btn-primary rounded-3">Créer</button>
+                    <button type="submit" form="projectForm" class="btn btn-primary rounded-3" id="submitButton">Créer</button>
                 </div>
             </div>
         </div>
@@ -330,7 +299,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="resourceForm" action="<%= request.getContextPath() %>/tache?action=assignRessource" method="POST">
-                        <input type="hidden" id="idTache" name="idTache" value="">
+                        <input type="hidden" id="idTacheResource" name="idTache">
                         <div class="mb-3">
                             <label for="idRessource" class="form-label fw-bold">Ressource</label>
                             <select class="form-control rounded-3" id="idRessource" name="idRessource" required>
@@ -368,7 +337,7 @@
                 <th>ID Tâche</th>
                 <th>Nom de la Tâche</th>
                 <th>Description</th>
-                <th>Nom projet</th>
+                <th>Nom Projet</th>
                 <th>Date de début</th>
                 <th>Date de fin</th>
                 <th>Action</th>
@@ -386,14 +355,20 @@
                 <td><%= tache.getDescription() %></td>
                 <td><%= tache.getNomProjet() %></td>
                 <td><%= tache.getDateDebut() %></td>
-                <previous class="fas fa-box-open"></previous>
                 <td><%= tache.getDateFin() %></td>
-                <td class="actions" style="width: 200px;">
-                    <div class="button-group">
-                        <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                        <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
-                        <button class="resource-btn" data-bs-toggle="modal" data-bs-target="#resourceModal" onclick="setTacheId(<%= tache.getIdTache() %>)"><i class="fas fa-box-open"></i></button>
-                    </div>
+                <td class="actions" style="width: 200px";>
+                    <button class="edit-btn" data-bs-toggle="modal" data-bs-target="#projectModal"
+                            onclick="fillModal('<%= tache.getIdTache() %>', '<%= tache.getNomTache() %>', '<%= tache.getDescription() %>', '<%= tache.getIdProjet() %>', '<%= tache.getDateDebut() %>', '<%= tache.getDateFin() %>')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete-btn">
+                        <a href="<%= request.getContextPath() %>/tache?action=deleteTache&id=<%= tache.getIdTache() %>">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </button>
+                    <button class="resource-btn" data-bs-toggle="modal" data-bs-target="#resourceModal" onclick="setTacheId('<%= tache.getIdTache() %>')">
+                        <i class="fas fa-box-open"></i>
+                    </button>
                 </td>
             </tr>
             <%
@@ -407,8 +382,32 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    function setTacheId(idTache) {
+    function fillModal(idTache, nomTache, description, nomProjet, dateDebut, dateFin) {
+        document.getElementById('projectModalLabel').innerText = 'Modifier une Tâche';
         document.getElementById('idTache').value = idTache;
+        document.getElementById('projectName').value = nomTache;
+        document.getElementById('projectDescription').value = description;
+        document.getElementById('nomProjet').value = nomProjet;
+        document.getElementById('projectDate').value = dateDebut;
+        document.getElementById('dateFin').value = dateFin;
+        document.getElementById('projectForm').action = '<%= request.getContextPath() %>/tache?action=updateTache';
+        document.getElementById('submitButton').innerText = 'Mettre à jour';
+    }
+
+    function resetModal() {
+        document.getElementById('projectModalLabel').innerText = 'Nouvelle Tâche';
+        document.getElementById('idTache').value = '';
+        document.getElementById('projectName').value = '';
+        document.getElementById('projectDescription').value = '';
+        document.getElementById('nomProjet').value = '';
+        document.getElementById('projectDate').value = '';
+        document.getElementById('datefin').value = '';
+        document.getElementById('projectForm').action = '<%= request.getContextPath() %>/tache?action=createtache';
+        document.getElementById('submitButton').innerText = 'Créer';
+    }
+
+    function setTacheId(idTache) {
+        document.getElementById('idTacheResource').value = idTache;
     }
 </script>
 </body>

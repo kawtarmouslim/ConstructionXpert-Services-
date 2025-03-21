@@ -56,7 +56,12 @@ public class TacheServlet extends HttpServlet {
                     case "assignRessource":
                         assignRessourceToTache(req, resp);
                         break;
-                    // Add other cases as needed
+                    case "updateTache":
+                        upduteTache(req, resp);
+                        break;
+                        case "deleteTache":
+                            delTache(req, resp);
+                            break;
                     default:
                         resp.sendRedirect(req.getContextPath() + "/tache?action=listtache");
                 }
@@ -96,5 +101,25 @@ public class TacheServlet extends HttpServlet {
       RequestDispatcher dispatcher = req.getRequestDispatcher("listtache.jsp");
       dispatcher.forward(req, resp);
 
+  }
+  public void  upduteTache(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int idTache = Integer.parseInt(req.getParameter("idTache"));
+        String nomTache = req.getParameter("nomTache");
+      String descriptionTache = req.getParameter("descriptionTache");
+        int idProjet = Integer.parseInt(req.getParameter("idProjet"));
+        String dateDebut = req.getParameter("dateDebut");
+        String dateFin = req.getParameter("dateFin");
+        Tache tache=new Tache(nomTache, descriptionTache, idProjet, dateDebut, dateFin);
+        tache.setIdTache(idTache);
+        tacheDao.updateTache(tache);
+        resp.sendRedirect(req.getContextPath() + "/tache?action=listtache");
+
+
+
+  }
+  public void delTache(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int idTache = Integer.parseInt(req.getParameter("id"));
+        tacheDao.deleteTache(idTache);
+        resp.sendRedirect(req.getContextPath() + "/tache?action=listtache");
   }
 }

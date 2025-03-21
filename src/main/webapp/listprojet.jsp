@@ -8,11 +8,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Tâches</title>
+    <title>Gestion des Projets</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Votre CSS personnalisé ici */
         * {
             margin: 0;
             padding: 0;
@@ -199,18 +198,12 @@
 <body>
 
 <div class="sidebar">
-    <h2>Gestion des Tâches</h2>
+    <h2>Gestion des Projets</h2>
     <ul class="menu">
-        <li class="active"><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="<%= request.getContextPath() %>/tache?action=listtache">
-            <i class="fas fa-project-diagram"></i> Taches
-        </a></li>
-        <li><a href="<%= request.getContextPath() %>/projet?action=listprojet">
-            <i class="fas fa-project-diagram"></i> Projets
-        </a></li>
-        <li><a href="<%= request.getContextPath() %>/ressource?action=listRessource">
-            <i class="fas fa-project-diagram"></i> Projets
-        </a></li>
+        <li><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="<%= request.getContextPath() %>/tache?action=listtache"><i class="fas fa-project-diagram"></i> Tâches</a></li>
+        <li class="active"><a href="<%= request.getContextPath() %>/projet?action=listprojet"><i class="fas fa-project-diagram"></i> Projets</a></li>
+        <li><a href="<%= request.getContextPath() %>/ressource?action=listRessource"><i class="fas fa-box-open"></i> Ressources</a></li>
     </ul>
 </div>
 
@@ -219,7 +212,7 @@
         <h2>Les Projets</h2>
     </div>
 
-    <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal">
+    <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal" onclick="resetModal()">
         <i class="fas fa-plus"></i> Ajouter un Projet
     </button>
 
@@ -228,61 +221,42 @@
         <div class="modal-dialog">
             <div class="modal-content p-4 shadow-lg rounded-3" style="background-color: #f8f9fa;">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title fw-bold text-primary" id="projectModalLabel">
-                        <%= (projete != null) ? "Modifier le Projet" : "Nouveau Projet" %>
-                    </h5>
+                    <h5 class="modal-title fw-bold text-primary" id="projectModalLabel">Nouveau Projet</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
                 <div class="modal-body">
-                    <form id="projectForm" action="<%= request.getContextPath() %>/projet?action=<%= (projete != null) ? "updateprojet" : "createprojet" %>" method="post">
-                        <% if (projete != null) { %>
-                        <input type="hidden" name="idProjet" value="<%= projete.getIdProjet() %>">
-                        <% } %>
-
+                    <form id="projectForm" action="<%= request.getContextPath() %>/projet?action=createprojet" method="post">
+                        <input type="hidden" id="idProjet" name="idProjet">
                         <div class="mb-3">
                             <label for="projectName" class="form-label fw-bold">Nom du projet</label>
-                            <input type="text" class="form-control rounded-3" id="projectName" name="nomProjet"
-                                   value="<%= (projete != null) ? projete.getNomProjet() : "" %>"
-                                   placeholder="Entrez le nom du projet" required>
+                            <input type="text" class="form-control rounded-3" id="projectName" name="nomProjet" placeholder="Entrez le nom du projet" required>
                         </div>
-
                         <div class="mb-3">
                             <label for="projectDescription" class="form-label fw-bold">Description</label>
-                            <textarea class="form-control rounded-3" id="projectDescription" name="description" rows="3"
-                                      placeholder="Entrez la description du projet"><%= (projete != null) ? projete.getDescription() : "" %></textarea>
+                            <textarea class="form-control rounded-3" id="projectDescription" name="description" rows="3" placeholder="Entrez la description du projet"></textarea>
                         </div>
-
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="projectDate" class="form-label fw-bold">Date de début</label>
-                                <input type="date" class="form-control rounded-3" id="projectDate" name="dateDebut"
-                                       value="<%= (projete != null) ? projete.getDateDebut() : "" %>" required>
+                                <input type="date" class="form-control rounded-3" id="projectDate" name="dateDebut" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="datefin" class="form-label fw-bold">Date de fin</label>
-                                <input type="date" class="form-control rounded-3" id="datefin" name="datefin"
-                                       value="<%= (projete != null) ? projete.getDateFin() : "" %>" required>
+                                <input type="date" class="form-control rounded-3" id="datefin" name="datefin" required>
                             </div>
                         </div>
-
                         <div class="mb-3">
                             <label for="budget" class="form-label fw-bold">Budget du projet</label>
                             <div class="input-group">
                                 <span class="input-group-text">€</span>
-                                <input type="text" class="form-control rounded-3" id="budget" name="budget"
-                                       value="<%= (projete != null) ? projete.getBudget() : "" %>"
-                                       placeholder="Entrez le budget du projet" required>
+                                <input type="text" class="form-control rounded-3" id="budget" name="budget" placeholder="Entrez le budget du projet" required>
                             </div>
                         </div>
                     </form>
                 </div>
-
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" form="projectForm" class="btn btn-primary rounded-3">
-                        <%= (projete != null) ? "Mettre à jour" : "Créer le projet" %>
-                    </button>
+                    <button type="submit" form="projectForm" class="btn btn-primary rounded-3" id="submitButton">Créer le projet</button>
                 </div>
             </div>
         </div>
@@ -293,7 +267,7 @@
             <thead>
             <tr>
                 <th>ID Projet</th>
-                <th>Nom de la Projet</th>
+                <th>Nom du Projet</th>
                 <th>Description</th>
                 <th>Date de début</th>
                 <th>Date de fin</th>
@@ -314,9 +288,16 @@
                 <td><%= projet.getDateDebut() %></td>
                 <td><%= projet.getDateFin() %></td>
                 <td><%= projet.getBudget() %></td>
-                <td class="actions" style="width: 150px;">
-                    <button class="edit-btn" data-bs-toggle="modal" data-bs-target="#projectModal"> <a href="<%= request.getContextPath() %>/projet?action=updateprojet&id=<%= projet.getIdProjet() %>"><i class="fas fa-edit"></i></a></button>
-                    <button class="delete-btn"> <a href="<%= request.getContextPath() %>/projet?action=deleteprojet&id=<%= projet.getIdProjet() %>"><i class="fas fa-trash-alt"></i></a></button>
+                <td class="actions" style="width: 200px";>
+                    <button class="edit-btn" data-bs-toggle="modal" data-bs-target="#projectModal"
+                            onclick="fillModal('<%= projet.getIdProjet() %>', '<%= projet.getNomProjet() %>', '<%= projet.getDescription() %>', '<%= projet.getDateDebut() %>', '<%= projet.getDateFin() %>', '<%= projet.getBudget() %>')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete-btn">
+                        <a href="<%= request.getContextPath() %>/projet?action=deleteprojet&id=<%= projet.getIdProjet() %>">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </button>
                 </td>
             </tr>
             <%
@@ -329,5 +310,30 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function fillModal(idProjet, nomProjet, description, dateDebut, datefin, budget) {
+        document.getElementById('projectModalLabel').innerText = 'Modifier un Projet';
+        document.getElementById('idProjet').value = idProjet;
+        document.getElementById('projectName').value = nomProjet;
+        document.getElementById('projectDescription').value = description;
+        document.getElementById('projectDate').value = dateDebut;
+        document.getElementById('datefin').value = datefin;
+        document.getElementById('budget').value = budget;
+        document.getElementById('projectForm').action = '<%= request.getContextPath() %>/projet?action=updateprojet';
+        document.getElementById('submitButton').innerText = 'Mettre à jour';
+    }
+
+    function resetModal() {
+        document.getElementById('projectModalLabel').innerText = 'Nouveau Projet';
+        document.getElementById('idProjet').value = '';
+        document.getElementById('projectName').value = '';
+        document.getElementById('projectDescription').value = '';
+        document.getElementById('projectDate').value = '';
+        document.getElementById('datefin').value = '';
+        document.getElementById('budget').value = '';
+        document.getElementById('projectForm').action = '<%= request.getContextPath() %>/projet?action=createprojet';
+        document.getElementById('submitButton').innerText = 'Créer le projet';
+    }
+</script>
 </body>
 </html>

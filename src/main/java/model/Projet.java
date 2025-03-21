@@ -19,14 +19,7 @@ public class Projet {
       this.budget = budget;
    }
 
-   public Projet(int idProjet, String dateDebut, String nomProjet, String description, String dateFin, float budget) {
-      this.idProjet = idProjet;
-      this.dateDebut = dateDebut;
-      this.nomProjet = nomProjet;
-      this.description = description;
-      this.dateFin = dateFin;
-      this.budget = budget;
-   }
+
 
    public int getIdProjet() {
       return idProjet;

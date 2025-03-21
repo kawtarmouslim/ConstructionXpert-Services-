@@ -41,7 +41,7 @@ public class TacheDao {
             preparedStatement.setString(4,tache.getDateDebut());
             preparedStatement.setString(5,tache.getDateFin());
             preparedStatement.executeUpdate();
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+
 
 
         } catch (Exception e) {
@@ -70,6 +70,34 @@ public class TacheDao {
             throw new RuntimeException(e);
         }
         return taches;
+    }
+    public void updateTache(Tache tache) {
+        String sql = "UPDATE tache SET nomTache = ?, description = ?, nomProjet = ?, dateDebut = ?, dateFin = ? WHERE idTache = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, tache.getNomTache());
+            preparedStatement.setString(2, tache.getDescription());
+            preparedStatement.setInt(3, tache.getIdProjet()); // Vérifie que c'est bien un ID et non un String
+            preparedStatement.setString(4, tache.getDateDebut());
+            preparedStatement.setString(5, tache.getDateFin());
+            preparedStatement.setInt(6, tache.getIdTache()); // Correction ici : idTache au lieu de idRessource
+
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteTache(int idTache) {
+        String sql = "DELETE FROM tache WHERE idTache = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, idTache);
+            preparedStatement.executeUpdate();
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

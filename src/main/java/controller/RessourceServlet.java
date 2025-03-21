@@ -1,6 +1,6 @@
 package controller;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
+
 import dao.RessourceDao;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -41,7 +41,11 @@ public class RessourceServlet extends HttpServlet {
                    listRessource(req, resp);
                    break;
                    case "deleteRessource":
+                       deleteRessource(req, resp);
                        break;
+                       case "updateRessource":
+                           updateRessource(req, resp);
+                           break;
                        default:
        }
 
@@ -67,4 +71,22 @@ public class RessourceServlet extends HttpServlet {
       RequestDispatcher dispatcher = request.getRequestDispatcher("listressource.jsp");
       dispatcher.forward(request, response);
   }
+    private void updateRessource(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int idRessource = Integer.parseInt(request.getParameter("idRessource"));
+        String nomRessource = request.getParameter("nomRessource");
+        String typeRessource = request.getParameter("typeRessource");
+        String fournisseur = request.getParameter("fournisseur");
+        int quantite = Integer.parseInt(request.getParameter("quantite"));
+        Ressource ressource = new Ressource(nomRessource, typeRessource, fournisseur, quantite);
+        ressource.setIdRessource(idRessource);
+        ressourceDao.updateRessource(ressource);
+        System.out.println("Ressource updated");
+        response.sendRedirect(request.getContextPath() + "/ressource?action=listRessource");
+    }
+    private void deleteRessource(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int idRessource = Integer.parseInt(request.getParameter("id"));
+        ressourceDao.deleteRessource(idRessource);
+        System.out.println("Ressource deleted");
+        response.sendRedirect(request.getContextPath() + "/ressource?action=listRessource");
+    }
 }

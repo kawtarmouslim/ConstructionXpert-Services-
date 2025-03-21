@@ -63,19 +63,7 @@ public class ProjetServlet extends HttpServlet {
                         break;
         }
     }
-    private void updateProjet(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
-        int id = Integer.parseInt((request.getParameter("id")));
-        String nom = request.getParameter("nomProjet");
-        String description = request.getParameter("description");
-        String dateDebut = request.getParameter("dateDebut");
-        String datefin = request.getParameter("datefin");
-        float budget = Float.parseFloat(request.getParameter("budget"));
-        Projet projet = new Projet(id,nom, description, dateDebut, datefin, budget);
-        projetDao.updateProjet(projet);
-        System.out.println("updated projet");
-        response.sendRedirect(request.getContextPath() + "/projet?action=listprojet");
-    }
+
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("idProjet"));
@@ -108,6 +96,20 @@ public class ProjetServlet extends HttpServlet {
          dispatcher.forward(req, resp);
 
      }
+        private void updateProjet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+        int id = Integer.parseInt(req.getParameter("idProjet"));
+        String nomProjet = req.getParameter("nomProjet");
+        String description = req.getParameter("description");
+        String dateDebut = req.getParameter("dateDebut");
+        String datefin = req.getParameter("datefin");
+        float budget = Float.parseFloat(req.getParameter("budget"));
+        Projet projet= new Projet(nomProjet,description,dateDebut,datefin,budget);
+        projet.setIdProjet(id);
+        projetDao.updateProjet(projet);
+            System.out.println("update projet");
+        resp.sendRedirect(req.getContextPath() + "/projet?action=listprojet");
+
+        }
      public void supprimerProjet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
                   int id = Integer.parseInt(req.getParameter("id"));
                   projetDao.deleteProjet(id);

@@ -57,7 +57,7 @@ public class ProjetDao {
                 resultSet.getString("nomProjet");
                 resultSet.getString("description");
                 resultSet.getString("dateDebut");
-                resultSet.getString("dateFin");
+                resultSet.getString("datefin");
                 resultSet.getFloat("budjet");
 
 
@@ -106,13 +106,13 @@ public class ProjetDao {
     public void updateProjet(Projet projet) throws SQLException {
         String sql = "UPDATE projet SET nomProjet=?, description=?, dateDebut=?, datefin=?, budjet=? WHERE idProjet=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1,projet.getIdProjet());
-            preparedStatement.setString(2, projet.getNomProjet());
-            preparedStatement.setString(3, projet.getDescription());
-            preparedStatement.setString(4, projet.getDateDebut());
-            preparedStatement.setString(5, projet.getDateFin());
-            preparedStatement.setFloat(6, projet.getBudget());
-
+            System.out.println("update projet dao");
+            preparedStatement.setString(1, projet.getNomProjet());
+            preparedStatement.setString(2, projet.getDescription());
+            preparedStatement.setString(3, projet.getDateDebut());
+            preparedStatement.setString(4, projet.getDateFin());
+            preparedStatement.setFloat(5, projet.getBudget());
+            preparedStatement.setInt(6,projet.getIdProjet());
             preparedStatement.executeUpdate();
         }
     }
