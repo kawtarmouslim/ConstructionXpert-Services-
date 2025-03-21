@@ -72,16 +72,14 @@ public class TacheDao {
         return taches;
     }
     public void updateTache(Tache tache) {
-        String sql = "UPDATE tache SET nomTache = ?, description = ?, nomProjet = ?, dateDebut = ?, dateFin = ? WHERE idTache = ?";
-
+        String sql = "UPDATE tache SET nomTache = ?, description = ?, idProjet = ?, dateDebut = ?, dateFin = ? WHERE idTache = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, tache.getNomTache());
             preparedStatement.setString(2, tache.getDescription());
-            preparedStatement.setInt(3, tache.getIdProjet()); // Vérifie que c'est bien un ID et non un String
+            preparedStatement.setInt(3, tache.getIdProjet()); // Utilisation correcte de idProjet
             preparedStatement.setString(4, tache.getDateDebut());
             preparedStatement.setString(5, tache.getDateFin());
-            preparedStatement.setInt(6, tache.getIdTache()); // Correction ici : idTache au lieu de idRessource
-
+            preparedStatement.setInt(6, tache.getIdTache());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -102,21 +102,19 @@ public class TacheServlet extends HttpServlet {
       dispatcher.forward(req, resp);
 
   }
-  public void  upduteTache(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void upduteTache(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int idTache = Integer.parseInt(req.getParameter("idTache"));
         String nomTache = req.getParameter("nomTache");
-      String descriptionTache = req.getParameter("descriptionTache");
+        String descriptionTache = req.getParameter("description"); // Renommé pour éviter la confusion
         int idProjet = Integer.parseInt(req.getParameter("idProjet"));
         String dateDebut = req.getParameter("dateDebut");
         String dateFin = req.getParameter("dateFin");
-        Tache tache=new Tache(nomTache, descriptionTache, idProjet, dateDebut, dateFin);
+
+        Tache tache = new Tache(nomTache, descriptionTache, idProjet, dateDebut, dateFin);
         tache.setIdTache(idTache);
         tacheDao.updateTache(tache);
         resp.sendRedirect(req.getContextPath() + "/tache?action=listtache");
-
-
-
-  }
+    }
   //delet
   public void delTache(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int idTache = Integer.parseInt(req.getParameter("id"));

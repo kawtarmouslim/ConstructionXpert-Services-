@@ -358,7 +358,7 @@
                 <td><%= tache.getDateFin() %></td>
                 <td class="actions" style="width: 200px";>
                     <button class="edit-btn" data-bs-toggle="modal" data-bs-target="#projectModal"
-                            onclick="fillModal('<%= tache.getIdTache() %>', '<%= tache.getNomTache() %>', '<%= tache.getDescription() %>', '<%= tache.getIdProjet() %>', '<%= tache.getDateDebut() %>', '<%= tache.getDateFin() %>')">
+                            onclick="fillModal('<%= tache.getIdTache() %>', '<%= tache.getNomTache() %>', '<%= tache.getDescription() %>', '<%= tache.getNomProjet() %>', '<%= tache.getDateDebut() %>', '<%= tache.getDateFin() %>')">
                         <i class="fas fa-edit"></i>
                     </button>
                     <button class="delete-btn">
@@ -399,7 +399,7 @@
         document.getElementById('idTache').value = '';
         document.getElementById('projectName').value = '';
         document.getElementById('projectDescription').value = '';
-        document.getElementById('nomProjet').value = '';
+        document.getElementById('idProjet').value = '';
         document.getElementById('projectDate').value = '';
         document.getElementById('datefin').value = '';
         document.getElementById('projectForm').action = '<%= request.getContextPath() %>/tache?action=cretetache';
