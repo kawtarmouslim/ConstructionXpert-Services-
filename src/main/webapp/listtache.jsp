@@ -387,7 +387,7 @@
         document.getElementById('idTache').value = idTache;
         document.getElementById('projectName').value = nomTache;
         document.getElementById('projectDescription').value = description;
-        document.getElementById('nomProjet').value = nomProjet;
+        document.getElementById('idProjet').value = nomProjet;
         document.getElementById('projectDate').value = dateDebut;
         document.getElementById('dateFin').value = dateFin;
         document.getElementById('projectForm').action = '<%= request.getContextPath() %>/tache?action=updateTache';
@@ -401,7 +401,7 @@
         document.getElementById('projectDescription').value = '';
         document.getElementById('nomProjet').value = '';
         document.getElementById('projectDate').value = '';
-        document.getElementById('datefin').value = '';
+        document.getElementById('dateFin').value = '';
         document.getElementById('projectForm').action = '<%= request.getContextPath() %>/tache?action=createtache';
         document.getElementById('submitButton').innerText = 'Créer';
     }
