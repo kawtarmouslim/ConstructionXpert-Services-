@@ -243,7 +243,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="projectForm" action="<%= request.getContextPath() %>/tache?action=createtache" method="POST">
+                    <form id="projectForm" action="<%= request.getContextPath() %>/tache?action=cretetache" method="POST">
                         <input type="hidden" id="idTache" name="idTache">
                         <div class="mb-3">
                             <label for="projectName" class="form-label fw-bold">Nom Tâche</label>
@@ -402,7 +402,7 @@
         document.getElementById('nomProjet').value = '';
         document.getElementById('projectDate').value = '';
         document.getElementById('datefin').value = '';
-        document.getElementById('projectForm').action = '<%= request.getContextPath() %>/tache?action=createtache';
+        document.getElementById('projectForm').action = '<%= request.getContextPath() %>/tache?action=cretetache';
         document.getElementById('submitButton').innerText = 'Créer';
     }
 
