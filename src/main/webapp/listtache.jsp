@@ -389,7 +389,7 @@
         document.getElementById('projectDescription').value = description;
         document.getElementById('idProjet').value = nomProjet;
         document.getElementById('projectDate').value = dateDebut;
-        document.getElementById('dateFin').value = dateFin;
+        document.getElementById('datefin').value = dateFin;
         document.getElementById('projectForm').action = '<%= request.getContextPath() %>/tache?action=updateTache';
         document.getElementById('submitButton').innerText = 'Mettre à jour';
     }
@@ -401,7 +401,7 @@
         document.getElementById('projectDescription').value = '';
         document.getElementById('nomProjet').value = '';
         document.getElementById('projectDate').value = '';
-        document.getElementById('dateFin').value = '';
+        document.getElementById('datefin').value = '';
         document.getElementById('projectForm').action = '<%= request.getContextPath() %>/tache?action=createtache';
         document.getElementById('submitButton').innerText = 'Créer';
     }
