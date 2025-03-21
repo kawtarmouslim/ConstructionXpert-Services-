@@ -117,6 +117,7 @@ public class TacheServlet extends HttpServlet {
 
 
   }
+  //delet
   public void delTache(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int idTache = Integer.parseInt(req.getParameter("id"));
         tacheDao.deleteTache(idTache);
