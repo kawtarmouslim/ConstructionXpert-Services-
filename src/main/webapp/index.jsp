@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -16,14 +17,28 @@
     }
 
     body {
-      background-color: #f5f5f5;
       font-size: 16px;
       color: #333;
       display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100vh;
-      flex-direction: column;
+      /* Background image */
+      background-image: url('${pageContext.request.contextPath}/images/0eb5db109f9335c5c8d500dc626ca1a0.jpg');
+      background-size: 100% 100%; /* Stretch to fill both width and height */
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+
+    /* Dark overlay for better readability */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Semi-transparent dark overlay */
+      z-index: 1;
     }
 
     /* Barre latérale */
@@ -37,6 +52,7 @@
       left: 0;
       top: 0;
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      z-index: 2; /* Ensure sidebar is above the overlay */
     }
     .sidebar h2 {
       margin-bottom: 40px;
@@ -66,105 +82,48 @@
     .menu li i {
       margin-right: 10px;
     }
+    .menu li a {
+      color: inherit; /* Inherit color from parent (white or #1e3a8a when active) */
+      text-decoration: none; /* Remove underline from links */
+    }
 
     /* Contenu principal */
     .main-content {
-      margin-left: 270px;
+      margin-left: 270px; /* Account for sidebar width (220px) + padding */
       padding: 20px;
-      width: 85%;
-      max-width: 1200px;
-      background: white;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      border-radius: 10px;
+      width: calc(100% - 270px); /* Adjust width to fit beside sidebar */
+      z-index: 2; /* Ensure content is above the overlay */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; /* Full height to center content vertically */
     }
 
-    /* Header */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-    .header h2 {
-      color: #333;
-      font-size: 1.8rem;
-    }
-    .header .user-info {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    .header .user-info img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-    }
-
-    .dashboard-cards {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-    .card {
-      background: #fff;
-      padding: 20px;
+    /* Centered Message */
+    .centered-message {
+      background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+      padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      flex: 1;
-      transition: transform 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
     }
-    .card:hover {
-      transform: translateY(-10px);
-    }
-    .card i {
-      font-size: 3rem;
-      margin-bottom: 15px;
-      color: #1e3a8a;
-    }
-    .card h3 {
-      font-size: 1.5rem;
-      color: #333;
+    .centered-message h3 {
+      color: #1e3a8a; /* Dark blue for contrast */
+      font-size: 2rem;
       margin-bottom: 10px;
     }
-    .card p {
-      color: #555;
-    }
-
-    .task-table-container {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 14px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-    th {
-      background: #f8f9fa;
-      color: #444;
-    }
-    tr:nth-child(odd) {
-      background: #f9f9f9;
-    }
-    tr:nth-child(even) {
-      background: #fafbfc;
-    }
-    tr:hover {
-      background: #e8f0fe;
+    .centered-message p {
+      color: #333;
+      font-size: 1.2rem;
     }
   </style>
 </head>
 <body>
 
 <div class="sidebar">
-  <h2>Gestion des Tâches</h2>
+  <h2>ConstructionXpert</h2>
   <ul class="menu">
     <li class="active"><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
     <li><a href="<%= request.getContextPath() %>/tache?action=listtache">
@@ -180,76 +139,10 @@
 </div>
 
 <div class="main-content">
-  <div class="header">
-    <h2>Tableau de Bord</h2>
-    <div class="user-info">
-
-      <span>WELCOOME</span>
-    </div>
-  </div>
-
-
-  <div class="dashboard-cards">
-
-    <div class="card">
-      <i class="fas fa-tasks"></i>
-      <h3>Tâches en Cours</h3>
-      <p>10 tâches en cours sur 20</p>
-    </div>
-
-    <div class="card">
-      <i class="fas fa-calendar-check"></i>
-      <h3>Tâches Terminées</h3>
-      <p>8 tâches terminées cette semaine</p>
-    </div>
-
-    <div class="card">
-      <i class="fas fa-users"></i>
-      <h3>Équipe</h3>
-      <p>5 membres actifs sur 6</p>
-    </div>
-  </div>
-
-  <div class="task-table-container">
-    <h3>Dernières Tâches</h3>
-    <table>
-      <thead>
-      <tr>
-        <th>ID Tâche</th>
-        <th>Nom de la Tâche</th>
-        <th>Projet</th>
-        <th>Date de début</th>
-        <th>Date de fin</th>
-        <th>Statut</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>#T101</td>
-        <td>Évaluation du Site</td>
-        <td>Construction du Bureau</td>
-        <td>01 Mai 2024</td>
-        <td>05 Mai 2024</td>
-        <td>En Cours</td>
-      </tr>
-      <tr>
-        <td>#T102</td>
-        <td>Installation de l'infrastructure</td>
-        <td>Rénovation Appartement</td>
-        <td>05 Juin 2024</td>
-        <td>10 Juin 2024</td>
-        <td>Terminé</td>
-      </tr>
-      <tr>
-        <td>#T103</td>
-        <td>Finir la peinture</td>
-        <td>Extension du Magasin</td>
-        <td>10 Juillet 2024</td>
-        <td>15 Juillet 2024</td>
-        <td>En Attente</td>
-      </tr>
-      </tbody>
-    </table>
+  <!-- Centered Message -->
+  <div class="centered-message">
+    <h3>Bienvenue sur ConstructionXpert</h3>
+    <p>Gérez vos tâches, projets et ressources efficacement avec ConstructionXpert.</p>
   </div>
 </div>
 

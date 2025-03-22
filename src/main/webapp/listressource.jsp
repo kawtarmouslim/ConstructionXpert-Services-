@@ -25,10 +25,16 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
-            background: #f0f4f8;
             font-size: 16px;
             color: #555;
+            background-image: url('${pageContext.request.contextPath}/images/0eb5db109f9335c5c8d500dc626ca1a0.jpg');
+            background-size: 100% 100%; /* Stretch to fill both width and height */
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
         }
+        /* Dark overlay for better readability */
+
         .sidebar {
             width: 220px;
             height: 100vh;
@@ -39,6 +45,7 @@
             left: 0;
             top: 0;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 2; /* Ensure sidebar is above the overlay */
         }
         .sidebar h2 {
             margin-bottom: 40px;
@@ -67,15 +74,23 @@
         }
         .menu li i {
             margin-right: 10px;
+            color: #d1e3ff; /* Light blue for non-active sidebar icons */
+        }
+        .active i {
+            color: #1e3a8a; /* Match the active text color */
+        }
+        .menu li a {
+            color: inherit; /* Inherit color from parent (white or #1e3a8a when active) */
+            text-decoration: none; /* Remove underline from links */
         }
         .main-content {
             margin-left: 250px;
             padding: 20px;
             width: 85%;
             max-width: 1200px;
-            background: white;
+            background: rgba(135, 206, 235, 0.6); /* More transparent to make background image visible */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            border-radius: 10px;
+
         }
         .header {
             display: flex;
@@ -87,16 +102,18 @@
             color: #333;
             font-size: 1.8rem;
         }
+
         .search-container {
             display: flex;
             justify-content: space-between;
             margin-bottom: 25px;
-            background-color: #f1f5fb;
             padding: 10px;
-            border-radius: 8px;
+            float: right;
+            width: 50%;
+          /
         }
         .search-container input[type="text"] {
-            width: 60%;
+            width: 50%;
             padding: 8px 15px;
             border-radius: 8px;
             border: 1px solid #ddd;
@@ -107,20 +124,13 @@
         .search-container input[type="text"]:focus {
             border-color: #1e3a8a;
         }
-        .search-container select {
-            width: 35%;
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
+
         .search-container select:focus {
             border-color: #1e3a8a;
         }
+        /* Table Container */
         .table-container {
-            background: #f9fafb;
+            background: rgba(255, 255, 255, 0.95); /* Semi-transparent white to match blueprint */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -138,8 +148,8 @@
             border-bottom: 1px solid #ddd;
         }
         th {
-            background: #f8f9fa;
-            color: #444;
+            background: #4a90e2; /* Medium blue for headers */
+            color: #fff; /* White text for better contrast */
             font-size: 1.1rem;
         }
         td {
@@ -147,14 +157,15 @@
             color: #555;
         }
         tr:nth-child(odd) {
-            background: #f9f9f9;
+            background: #e6f0fa; /* Lighter blue-gray for odd rows */
         }
         tr:nth-child(even) {
-            background: #fafbfc;
+            background: #f9f9f9; /* Off-white for even rows */
         }
         tr:hover {
-            background: #e8f0fe;
+            background: #b3d4fc; /* Brighter blue on hover */
         }
+        /* Action Buttons */
         .actions button {
             border: none;
             padding: 8px 15px;
@@ -165,21 +176,28 @@
             transition: background-color 0.3s ease;
         }
         .edit-btn {
-            background: #fbbd08;
+            background: #28a745; /* Green for edit button */
             color: white;
         }
         .edit-btn:hover {
-            background: #e9a50f;
+            background: #218838; /* Darker green on hover */
+        }
+        .edit-btn i {
+            color: white; /* Ensure edit icon is white */
         }
         .delete-btn {
-            background: #dc3545;
+            background: #c82333; /* Darker red for delete button */
             color: white;
         }
         .delete-btn:hover {
-            background: #c82333;
+            background: #a71d2a; /* Even darker red on hover */
         }
+        .delete-btn i {
+            color: white; /* Ensure delete icon is white */
+        }
+        /* Add Task Button */
         .add-task-btn {
-            background: #4caf50;
+            background: #1e3a8a; /* Dark blue to match sidebar and blueprint theme */
             color: white;
             border: none;
             padding: 12px 20px;
@@ -191,33 +209,17 @@
         }
         .add-task-btn i {
             margin-right: 8px;
+            color: white; /* Ensure add icon is white */
         }
         .add-task-btn:hover {
-            background: #45a049;
+            background: #3b5998; /* Lighter blue on hover for better contrast */
         }
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-        button {
-            background-color: #f0f0f0;
-            border: none;
-            padding: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button i {
-            margin-right: 5px;
-        }
-        button:hover {
-            background-color: #ddd;
-        }
+
     </style>
 </head>
 <body>
 <div class="sidebar">
-    <h2>Gestion des Ressources</h2>
+    <h2>ConstructionXpert</h2>
     <ul class="menu">
         <li><a href="index.jsp"><i class="fas fa-home"></i> Dashboard</a></li>
         <li><a href="<%= request.getContextPath() %>/tache?action=listtache"><i class="fas fa-project-diagram"></i> Tâches</a></li>
@@ -227,17 +229,10 @@
 </div>
 
 <div class="main-content">
-    <div class="header">
-        <h2>Les Ressources</h2>
-    </div>
+
     <div class="search-container">
         <input type="text" placeholder="Rechercher une Ressource...">
-        <select>
-            <option value="all">Tous les Ressources</option>
-            <option value="construction">Construction</option>
-            <option value="renovation">Rénovation</option>
-            <option value="expansion">Expansion</option>
-        </select>
+
     </div>
 
     <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal" onclick="resetModal()">
