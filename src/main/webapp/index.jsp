@@ -135,6 +135,9 @@
     <li><a href="<%= request.getContextPath() %>/ressource?action=listRessource">
       <i class="fas fa-project-diagram"></i> Ressource
     </a></li>
+    <li><a href="<%= request.getContextPath() %>/logout">
+      <i class="fas fa-sign-out-alt"></i> Déconnexion
+    </a></li>
   </ul>
 </div>
 
