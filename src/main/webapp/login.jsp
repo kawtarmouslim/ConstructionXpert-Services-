@@ -181,7 +181,7 @@
     <form action="seConnecter" method="post">
         <div class="input-group">
             <i class="fas fa-envelope"></i>
-            <input type="email" name="email" placeholder="Email" required>
+            <input type="email" name="username" placeholder="Email" required>
         </div>
         <div class="input-group">
             <i class="fas fa-lock"></i>
