@@ -105,7 +105,7 @@ public class TacheServlet extends HttpServlet {
     public void upduteTache(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int idTache = Integer.parseInt(req.getParameter("idTache"));
         String nomTache = req.getParameter("nomTache");
-        String descriptionTache = req.getParameter("description"); // Renommé pour éviter la confusion
+        String descriptionTache = req.getParameter("description");
         int idProjet = Integer.parseInt(req.getParameter("idProjet"));
         String dateDebut = req.getParameter("dateDebut");
         String dateFin = req.getParameter("dateFin");

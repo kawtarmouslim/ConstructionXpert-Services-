@@ -183,8 +183,8 @@
   <div class="header">
     <h2>Tableau de Bord</h2>
     <div class="user-info">
-      <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Avatar de l'utilisateur">
-      <span>Jean Dupont</span>
+
+      <span>WELCOOME</span>
     </div>
   </div>
 

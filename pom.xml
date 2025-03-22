@@ -36,9 +36,10 @@
           <version>8.0.33</version> <!-- Assure-toi d'utiliser une version récente -->
       </dependency>
       <dependency>
-          <groupId>jakarta.servlet.jsp.jstl</groupId>
-          <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-          <version>3.0.2</version>
+          <groupId>jakarta.servlet.jsp</groupId>
+          <artifactId>jakarta.servlet.jsp-api</artifactId>
+          <version>3.1.0</version>
+          <scope>provided</scope>
       </dependency>
 
 
