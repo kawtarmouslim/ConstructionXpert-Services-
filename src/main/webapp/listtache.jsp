@@ -411,6 +411,35 @@
     function setTacheId(idTache) {
         document.getElementById('idTacheResource').value = idTache;
     }
+
+    document.getElementById('resourceForm').addEventListener('submit', function(e) {
+        // Récupérer les éléments du formulaire
+        const selectRessource = document.getElementById('idRessource');
+        const quantiteInput = document.getElementById('quantite');
+
+        // convertir la valeur enter en entiere
+        const quantiteDemandee = parseInt(quantiteInput.value);
+
+        // Récupérer la quantite seceltinner
+        const selectedOption = selectRessource.options[selectRessource.selectedIndex];
+
+        if (selectedOption.value !== "") {
+
+            const texteOption = selectedOption.text;
+            const match = texteOption.match(/Disponible: (\d+)/);//REGEX
+
+            if (match) {
+                const quantiteDisponible = parseInt(match[1]);
+
+                // Vérifier si la quantité demandée dépasse la quantité disponible
+                if (quantiteDemandee > quantiteDisponible) {
+                    e.preventDefault(); // Empêcher la soumission du formulaire
+                    alert('Erreur : La quantité demandée (' + quantiteDemandee + ') dépasse la quantité disponible (' + quantiteDisponible + ').');
+                    return false;
+                }
+            }
+        }
+    });
 </script>
 </body>
 </html>
