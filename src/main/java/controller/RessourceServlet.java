@@ -46,6 +46,9 @@ public class RessourceServlet extends HttpServlet {
                        case "updateRessource":
                            updateRessource(req, resp);
                            break;
+           case "filterRessource":
+               filterByid(req, resp);
+                               break;
                        default:
        }
 
@@ -88,5 +91,12 @@ public class RessourceServlet extends HttpServlet {
         ressourceDao.deleteRessource(idRessource);
         System.out.println("Ressource deleted");
         response.sendRedirect(request.getContextPath() + "/ressource?action=listRessource");
+    }
+    private void filterByid(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      int id=Integer.parseInt(request.getParameter("id"));
+      Ressource ressource=ressourceDao.getRessourceById(id);
+        request.setAttribute("ressource", ressource);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("listressource.jsp");
+        dispatcher.forward(request, response);
     }
 }

@@ -144,5 +144,27 @@ public class RessourceDao {
             throw new RuntimeException(e);
         }
     }
+    public Ressource getRessourceById(int idRessource) {
+        Ressource ressource = null;
+        String sql = "SELECT * FROM ressource WHERE idRessource = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idRessource);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                ressource = new Ressource();
+                ressource.setIdRessource(rs.getInt("idRessource"));
+                ressource.setNomRessource(rs.getString("nom"));
+                ressource.setType(rs.getString("type"));
+                ressource.setFournisseur(rs.getString("fournisseur"));
+                ressource.setQuantite(rs.getInt("quantite"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erreur lors de la récupération de la ressource par ID", e);
+        }
+        return ressource;
+    }
 
 }

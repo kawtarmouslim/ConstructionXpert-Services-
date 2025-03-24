@@ -3,6 +3,7 @@
 <%@ page import="model.Ressource" %>
 <%
     List<Ressource> ressources = (List<Ressource>) request.getAttribute("ressources");
+    Ressource ressource = (Ressource) request.getAttribute("ressource"); // Pour le filtrage par ID
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -28,13 +29,11 @@
             font-size: 16px;
             color: #555;
             background-image: url('${pageContext.request.contextPath}/images/0eb5db109f9335c5c8d500dc626ca1a0.jpg');
-            background-size: 100% 100%; /* Stretch to fill both width and height */
+            background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
             position: relative;
         }
-        /* Dark overlay for better readability */
-
         .sidebar {
             width: 220px;
             height: 100vh;
@@ -45,7 +44,7 @@
             left: 0;
             top: 0;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 2; /* Ensure sidebar is above the overlay */
+            z-index: 2;
         }
         .sidebar h2 {
             margin-bottom: 40px;
@@ -74,23 +73,22 @@
         }
         .menu li i {
             margin-right: 10px;
-            color: #d1e3ff; /* Light blue for non-active sidebar icons */
+            color: #d1e3ff;
         }
         .active i {
-            color: #1e3a8a; /* Match the active text color */
+            color: #1e3a8a;
         }
         .menu li a {
-            color: inherit; /* Inherit color from parent (white or #1e3a8a when active) */
-            text-decoration: none; /* Remove underline from links */
+            color: inherit;
+            text-decoration: none;
         }
         .main-content {
             margin-left: 250px;
             padding: 20px;
             width: 85%;
             max-width: 1200px;
-            background: rgba(135, 206, 235, 0.6); /* More transparent to make background image visible */
+            background: rgba(135, 206, 235, 0.6);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-
         }
         .header {
             display: flex;
@@ -102,7 +100,6 @@
             color: #333;
             font-size: 1.8rem;
         }
-
         .search-container {
             display: flex;
             justify-content: space-between;
@@ -110,7 +107,6 @@
             padding: 10px;
             float: right;
             width: 50%;
-          /
         }
         .search-container input[type="text"] {
             width: 50%;
@@ -124,13 +120,11 @@
         .search-container input[type="text"]:focus {
             border-color: #1e3a8a;
         }
-
         .search-container select:focus {
             border-color: #1e3a8a;
         }
-        /* Table Container */
         .table-container {
-            background: rgba(255, 255, 255, 0.95); /* Semi-transparent white to match blueprint */
+            background: rgba(255, 255, 255, 0.95);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -148,8 +142,8 @@
             border-bottom: 1px solid #ddd;
         }
         th {
-            background: #4a90e2; /* Medium blue for headers */
-            color: #fff; /* White text for better contrast */
+            background: #4a90e2;
+            color: #fff;
             font-size: 1.1rem;
         }
         td {
@@ -157,15 +151,14 @@
             color: #555;
         }
         tr:nth-child(odd) {
-            background: #e6f0fa; /* Lighter blue-gray for odd rows */
+            background: #e6f0fa;
         }
         tr:nth-child(even) {
-            background: #f9f9f9; /* Off-white for even rows */
+            background: #f9f9f9;
         }
         tr:hover {
-            background: #b3d4fc; /* Brighter blue on hover */
+            background: #b3d4fc;
         }
-        /* Action Buttons */
         .actions button {
             border: none;
             padding: 8px 15px;
@@ -176,28 +169,27 @@
             transition: background-color 0.3s ease;
         }
         .edit-btn {
-            background: #28a745; /* Green for edit button */
+            background: #28a745;
             color: white;
         }
         .edit-btn:hover {
-            background: #218838; /* Darker green on hover */
+            background: #218838;
         }
         .edit-btn i {
-            color: white; /* Ensure edit icon is white */
+            color: white;
         }
         .delete-btn {
-            background: #c82333; /* Darker red for delete button */
+            background: #c82333;
             color: white;
         }
         .delete-btn:hover {
-            background: #a71d2a; /* Even darker red on hover */
+            background: #a71d2a;
         }
         .delete-btn i {
-            color: white; /* Ensure delete icon is white */
+            color: white;
         }
-        /* Add Task Button */
         .add-task-btn {
-            background: #1e3a8a; /* Dark blue to match sidebar and blueprint theme */
+            background: #1e3a8a;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -209,12 +201,11 @@
         }
         .add-task-btn i {
             margin-right: 8px;
-            color: white; /* Ensure add icon is white */
+            color: white;
         }
         .add-task-btn:hover {
-            background: #3b5998; /* Lighter blue on hover for better contrast */
+            background: #3b5998;
         }
-
     </style>
 </head>
 <body>
@@ -229,10 +220,14 @@
 </div>
 
 <div class="main-content">
-
+    <!-- Formulaire de recherche par ID -->
     <div class="search-container">
-        <input type="text" placeholder="Rechercher une Ressource...">
-
+        <form method="get" action="<%= request.getContextPath() %>/ressource">
+            <input type="hidden" name="action" value="filterRessource">
+            <input type="text" name="id" placeholder="Rechercher une Ressource par ID..." required>
+            <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Rechercher</button>
+        </form>
+        <a href="<%= request.getContextPath() %>/ressource?action=listRessource" style="margin-left: 20px;">Afficher toutes les ressources</a>
     </div>
 
     <button class="add-task-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal" onclick="resetModal()">
@@ -290,8 +285,8 @@
             </thead>
             <tbody id="task-table">
             <%
-                if (ressources != null) {
-                    for (Ressource ressource : ressources) {
+                // Si une ressource unique est trouvée (filtrage par ID)
+                if (ressource != null) {
             %>
             <tr>
                 <td><%= ressource.getIdRessource() %></td>
@@ -312,7 +307,37 @@
                 </td>
             </tr>
             <%
-                    }
+            }
+            // Sinon, afficher la liste complète
+            else if (ressources != null) {
+                for (Ressource r : ressources) {
+            %>
+            <tr>
+                <td><%= r.getIdRessource() %></td>
+                <td><%= r.getNomRessource() %></td>
+                <td><%= r.getType() %></td>
+                <td><%= r.getFournisseur() %></td>
+                <td><%= r.getQuantite() %></td>
+                <td class="actions">
+                    <button class="edit-btn" data-bs-toggle="modal" data-bs-target="#projectModal"
+                            onclick="fillModal('<%= r.getIdRessource() %>', '<%= r.getNomRessource() %>', '<%= r.getType() %>', '<%= r.getFournisseur() %>', '<%= r.getQuantite() %>')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete-btn">
+                        <a href="<%= request.getContextPath() %>/ressource?action=deleteRessource&id=<%= r.getIdRessource() %>">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </button>
+                </td>
+            </tr>
+            <%
+                }
+            } else {
+            %>
+            <tr>
+                <td colspan="6">Aucune ressource trouvée.</td>
+            </tr>
+            <%
                 }
             %>
             </tbody>
